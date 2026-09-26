@@ -109,7 +109,21 @@ service cloud.firestore {
 5. **Important**: Send a verification email or use the Firebase Admin SDK to verify the email. The backend requires `email_verified = true`.
 
 > [!TIP]
-> To verify the email quickly: sign in with this account in a test page, call `sendEmailVerification()`, and click the link in the email. Or use the Firebase CLI: `firebase auth:update <UID> --email-verified`
+> **How to verify your admin email:**
+>
+> **Method 1: Run the verification script (Instant)**
+> Open terminal in `backend` and run:
+> ```powershell
+> cd backend
+> node verify-admin.js
+> ```
+>
+> **Method 2: Via Firebase Console**
+> Go to Firebase Console → Authentication → Users → click `...` next to the admin user → **Send email verification** → click the link in your inbox.
+>
+> *Note: After verifying, sign out and sign back in on the admin page so your session token refreshes.*
+
+
 
 ### 2.6 Register a Web App (for the frontend)
 

@@ -9,40 +9,41 @@
     * {
       box-sizing: border-box;
       margin: 0;
-      padding: 0
+      padding: 0;
     }
 
     body {
       font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-      background: #f4f7fc;
+      background: #f0f4f9;
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 16px
+      padding: 16px;
+      color: #1a2b3c;
     }
 
     .app-container {
       width: 100%;
       max-width: 1200px;
       background: white;
-      border-radius: 32px;
-      box-shadow: 0 25px 50px -12px #0004;
+      border-radius: 28px;
+      box-shadow: 0 20px 45px -10px rgba(11, 43, 79, 0.15);
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      min-height: 700px
+      min-height: 720px;
     }
 
     .header {
       background: #0b2b4f;
       color: white;
-      padding: 20px 28px;
+      padding: 18px 28px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 12px
+      gap: 12px;
     }
 
     .header-brand {
@@ -50,151 +51,244 @@
       align-items: center;
       gap: 12px;
       min-width: 0;
-      flex: 1
+      flex: 1;
     }
 
     .header h1 {
-      font-size: 1.6rem;
+      font-size: 1.5rem;
       font-weight: 600;
       display: flex;
       align-items: center;
       gap: 8px;
-      flex-wrap: wrap
+      flex-wrap: wrap;
     }
 
     .header h1 span {
       background: #2e6b9e;
-      font-size: .8rem;
-      padding: 4px 10px;
+      font-size: .78rem;
+      padding: 3px 10px;
       border-radius: 40px;
-      font-weight: 400
+      font-weight: 400;
     }
 
     .brand-logo {
-      width: 54px;
-      height: 54px;
+      width: 50px;
+      height: 50px;
       object-fit: cover;
-      border-radius: 14px;
+      border-radius: 12px;
       background: #fff;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, .15);
-      padding: 3px
+      padding: 2px;
     }
 
     .nav-tabs {
       display: flex;
-      gap: 8px;
-      background: #1e3e62;
+      gap: 6px;
+      background: #17385c;
       padding: 4px;
-      border-radius: 60px
+      border-radius: 60px;
     }
 
     .nav-tabs button {
       background: transparent;
       border: 0;
       color: #b8d1e8;
-      padding: 10px 22px;
+      padding: 9px 18px;
       border-radius: 40px;
       font-weight: 500;
-      font-size: .95rem;
-      cursor: pointer
+      font-size: .92rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
     }
 
     .nav-tabs button.active {
       background: white;
       color: #0b2b4f;
-      font-weight: 600
+      font-weight: 600;
     }
 
     .content {
       flex: 1;
       padding: 28px;
       background: white;
-      overflow-y: auto
+      overflow-y: auto;
     }
 
     .page {
-      display: none
+      display: none;
     }
 
     .page.active-page {
-      display: block
+      display: block;
     }
 
     .card {
       background: #f9fcff;
       border: 1px solid #d9e6f2;
-      border-radius: 24px;
+      border-radius: 20px;
       padding: 24px;
       margin-bottom: 24px;
-      box-shadow: 0 4px 10px #00000005
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
     }
 
     .card h2 {
-      font-size: 1.4rem;
+      font-size: 1.35rem;
       color: #0b2b4f;
       margin-bottom: 18px;
       display: flex;
       align-items: center;
-      gap: 8px
+      gap: 8px;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: white;
+      border: 1.5px solid #d5e5f5;
+      border-radius: 18px;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .stat-label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #5c7895;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .stat-value {
+      font-size: 1.85rem;
+      font-weight: 700;
+      color: #0b2b4f;
+    }
+
+    .stat-sub {
+      font-size: 0.85rem;
+      color: #728ea9;
+    }
+
+    /* Operations Banner */
+    .ops-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+      justify-content: space-between;
+      background: #edf5fc;
+      border: 1px solid #c9dff2;
+      border-radius: 18px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+    }
+
+    .ops-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
     .form-row {
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
-      margin-bottom: 18px
+      margin-bottom: 18px;
     }
 
     .form-group {
       flex: 1 1 200px;
       display: flex;
       flex-direction: column;
-      gap: 6px
+      gap: 6px;
     }
 
     .form-group label {
-      font-size: .85rem;
+      font-size: .82rem;
       font-weight: 600;
       color: #2e4a6b;
-      text-transform: uppercase
+      text-transform: uppercase;
     }
 
     .form-group input,
     .form-group select {
-      padding: 12px 16px;
+      padding: 11px 16px;
       border: 1px solid #cbdae7;
-      border-radius: 16px;
-      font-size: 1rem;
-      background: white
+      border-radius: 14px;
+      font-size: .98rem;
+      background: white;
+      color: #1a2b3c;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #0b2b4f;
+      box-shadow: 0 0 0 3px rgba(11, 43, 79, 0.1);
     }
 
     button.primary {
       background: #0b2b4f;
       color: white;
       border: 0;
-      padding: 14px 28px;
+      padding: 12px 24px;
       border-radius: 40px;
       font-weight: 600;
-      font-size: 1rem;
+      font-size: .95rem;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 8px
+      gap: 8px;
+      transition: background 0.15s;
+    }
+
+    button.primary:hover:not(:disabled) {
+      background: #144275;
+    }
+
+    button.primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
 
     button.secondary {
       background: transparent;
       border: 1.5px solid #0b2b4f;
       color: #0b2b4f;
-      padding: 12px 24px;
+      padding: 10px 20px;
       border-radius: 40px;
       font-weight: 600;
-      cursor: pointer
+      font-size: .92rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    button.secondary:hover {
+      background: #0b2b4f;
+      color: white;
+    }
+
+    button.danger {
+      border-color: #c93b3b;
+      color: #c93b3b;
+    }
+
+    button.danger:hover {
+      background: #c93b3b;
+      color: white;
     }
 
     button.small {
-      padding: 8px 18px;
-      font-size: .9rem
+      padding: 7px 14px;
+      font-size: .85rem;
     }
 
     .voter-list,
@@ -203,44 +297,44 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      max-height: 260px;
+      max-height: 250px;
       overflow-y: auto;
       padding-right: 6px;
-      margin-top: 10px
+      margin-top: 10px;
     }
 
     .list-item {
       background: white;
-      border-radius: 16px;
-      padding: 14px 18px;
+      border-radius: 14px;
+      padding: 12px 16px;
       border: 1px solid #e2edf7;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 10px
+      gap: 10px;
     }
 
     .list-item .info {
       display: flex;
-      flex-direction: column
+      flex-direction: column;
     }
 
     .list-item .title {
       font-weight: 600;
-      color: #0b2b4f
+      color: #0b2b4f;
     }
 
     .list-item .sub {
-      font-size: .85rem;
-      color: #5e7c9a
+      font-size: .82rem;
+      color: #5e7c9a;
     }
 
     .list-actions {
       display: flex;
       gap: 8px;
       align-items: center;
-      flex-wrap: wrap
+      flex-wrap: wrap;
     }
 
     .badge {
@@ -248,75 +342,177 @@
       color: #0b2b4f;
       padding: 4px 12px;
       border-radius: 40px;
-      font-size: .8rem;
-      font-weight: 600
+      font-size: .78rem;
+      font-weight: 600;
+    }
+
+    .badge-success {
+      background: #def7ec;
+      color: #03543f;
+    }
+
+    .badge-warning {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .badge-danger {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .badge-winner {
+      background: #fef08a;
+      color: #854d0e;
+      border: 1px solid #facc15;
     }
 
     .action-btn {
-      border-radius: 10px;
-      padding: 7px 12px;
+      border-radius: 8px;
+      padding: 6px 12px;
       font-size: .8rem;
       font-weight: 600;
       border: 1px solid transparent;
-      cursor: pointer
+      cursor: pointer;
     }
 
     .action-btn.edit {
       background: #edf4ff;
       color: #0b2b4f;
-      border-color: #cfe0ff
+      border-color: #cfe0ff;
     }
 
     .action-btn.delete {
       background: #fff0f0;
       color: #c94a4a;
-      border-color: #ffdada
+      border-color: #ffdada;
     }
 
+    /* Ballot Grid */
     .ballot-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
       gap: 16px;
-      margin-top: 16px
+      margin-top: 14px;
     }
 
     .ballot-card {
       background: white;
       border: 1.5px solid #d0e1f0;
-      border-radius: 20px;
-      padding: 20px;
+      border-radius: 18px;
+      padding: 18px;
       display: flex;
       flex-direction: column;
-      gap: 12px
+      gap: 12px;
+      transition: border-color 0.2s;
+    }
+
+    .ballot-card.voted {
+      background: #f4faf6;
+      border-color: #9bd7b8;
     }
 
     .ballot-card h3 {
       font-size: 1.1rem;
-      color: #0b2b4f
+      color: #0b2b4f;
     }
 
     .ballot-card p {
       color: #4b6a89;
-      font-size: .9rem
+      font-size: .88rem;
+    }
+
+    /* Results Progress Bars */
+    .results-card {
+      background: white;
+      border: 1.5px solid #d9e6f2;
+      border-radius: 20px;
+      padding: 22px;
+      margin-bottom: 20px;
+    }
+
+    .results-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #edf2f7;
+    }
+
+    .results-header h3 {
+      color: #0b2b4f;
+      font-size: 1.25rem;
+    }
+
+    .candidate-result-row {
+      margin-bottom: 16px;
+    }
+
+    .candidate-result-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .result-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    .result-name {
+      font-size: 1rem;
+      color: #172b4d;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .result-votes {
+      font-size: 0.92rem;
+      color: #4b6a89;
+    }
+
+    .progress-bar-bg {
+      background: #e8f0f8;
+      height: 14px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      background: linear-gradient(90deg, #1b4975, #3182ce);
+      height: 100%;
+      border-radius: 10px;
+      transition: width 0.6s ease;
+    }
+
+    .progress-bar-fill.leader {
+      background: linear-gradient(90deg, #107c41, #22c55e);
     }
 
     .empty-msg {
       color: #8ba1b8;
       font-style: italic;
-      padding: 20px 0;
+      padding: 24px 0;
       text-align: center;
       background: #f9fcff;
-      border-radius: 16px
+      border-radius: 16px;
     }
 
     .status-bar {
-      font-size: .85rem;
+      font-size: .88rem;
       color: #4b6a89;
-      padding: 10px 16px;
+      padding: 10px 18px;
       background: #e9f2fa;
       border-radius: 40px;
-      display: inline-block;
-      margin-bottom: 16px
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
     }
 
     .flex-between {
@@ -324,59 +520,184 @@
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 12px
+      gap: 12px;
     }
 
     .login-box {
-      max-width: 400px;
+      max-width: 420px;
       margin: 40px auto;
-      text-align: center
+      text-align: center;
     }
 
     .login-box input {
       width: 100%;
-      padding: 14px 18px;
-      border-radius: 20px;
+      padding: 13px 18px;
+      border-radius: 16px;
       border: 1px solid #cbdae7;
-      margin: 12px 0;
-      font-size: 1rem
+      margin: 10px 0;
+      font-size: 1rem;
     }
 
     .hidden {
-      display: none !important
+      display: none !important;
     }
 
     .user-tag {
       background: #2e6b9e;
       padding: 6px 14px;
       border-radius: 40px;
-      font-size: .9rem;
+      font-size: .88rem;
       display: flex;
       align-items: center;
-      gap: 8px
+      gap: 8px;
     }
 
-    @media(max-width:600px) {
+    /* Print Template Styles (Hidden on Screen, Formatted for Paper/PDF) */
+    #officialReportPrintView {
+      display: none;
+    }
+
+    @media print {
+      body {
+        background: white !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        color: black !important;
+      }
+
+      .app-container {
+        display: none !important;
+      }
+
+      #officialReportPrintView {
+        display: block !important;
+        padding: 40px;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      .print-header {
+        text-align: center;
+        border-bottom: 2.5px solid #000;
+        padding-bottom: 14px;
+        margin-bottom: 24px;
+      }
+
+      .print-header h1 {
+        font-size: 24pt;
+        margin-bottom: 4pt;
+        text-transform: uppercase;
+      }
+
+      .print-header h2 {
+        font-size: 14pt;
+        font-weight: normal;
+        margin-bottom: 6pt;
+      }
+
+      .print-meta-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        border: 1px solid #000;
+        margin-bottom: 24px;
+      }
+
+      .print-meta-item {
+        padding: 8px 12px;
+        border-right: 1px solid #000;
+      }
+
+      .print-meta-item:last-child {
+        border-right: none;
+      }
+
+      .print-meta-item .label {
+        font-size: 9pt;
+        text-transform: uppercase;
+        color: #444;
+      }
+
+      .print-meta-item .value {
+        font-size: 14pt;
+        font-weight: bold;
+      }
+
+      .print-position {
+        margin-bottom: 24px;
+        page-break-inside: avoid;
+      }
+
+      .print-position h3 {
+        font-size: 13pt;
+        border-bottom: 1.5px solid #444;
+        padding-bottom: 4px;
+        margin-bottom: 8px;
+      }
+
+      .print-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 10pt;
+      }
+
+      .print-table th,
+      .print-table td {
+        border: 1px solid #888;
+        padding: 6px 10px;
+        text-align: left;
+      }
+
+      .print-table th {
+        background-color: #eee !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .print-winner-row {
+        font-weight: bold;
+        background-color: #f9f9f9 !important;
+      }
+
+      .print-signatures {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        margin-top: 50px;
+        page-break-inside: avoid;
+      }
+
+      .signature-block {
+        border-top: 1px solid #000;
+        padding-top: 6px;
+        font-size: 10pt;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 680px) {
       .content {
-        padding: 16px
+        padding: 16px;
       }
 
       .header {
-        padding: 18px
+        padding: 16px;
       }
 
       .nav-tabs {
         width: 100%;
-        justify-content: space-around
+        justify-content: space-around;
       }
 
       .nav-tabs button {
-        padding: 9px 12px
+        padding: 8px 12px;
+        font-size: .85rem;
       }
 
       .app-container {
-        min-height: 90vh;
-        border-radius: 20px
+        border-radius: 18px;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -387,106 +708,245 @@
     <div class="header">
       <div class="header-brand">
         <img class="brand-logo" src="logo.jpg" alt="DESA logo" onerror="this.style.display='none';" />
-        <h1>🗳️ DESA Decides 2026 <span>Realtime</span></h1>
+        <h1>🗳️ DESA Decides 2026 <span>Official</span></h1>
       </div>
       <div class="nav-tabs" id="navTabs">
-        <button data-page="login" class="active">🔐 Login</button>
+        <button data-page="login" class="active">🔐 Voter Login</button>
         <button data-page="ballot">📋 Ballot</button>
+        <button data-page="results">📊 Results</button>
         <button data-page="admin">⚙️ Admin</button>
       </div>
       <div id="userBadge" class="user-tag hidden"></div>
     </div>
+
     <div class="content">
+      <!-- 1. VOTER LOGIN PAGE -->
       <div id="page-login" class="page active-page">
         <div class="card login-box">
           <h2>🔑 Voter Login</h2>
-          <p style="color:#4b6a89;margin-bottom:20px">Enter your voter ID to access the ballot.</p>
+          <p style="color:#4b6a89;margin-bottom:18px">Enter your assigned Voter ID to access your official ballot.</p>
           <div id="loginMessage" class="status-bar" style="display:none"></div>
-          <input type="text" id="loginVoterId" placeholder="Voter ID (e.g., voter1)" autocomplete="off">
-          <button class="primary" id="loginBtn" style="width:100%;justify-content:center">Login</button>
-          <p style="margin-top:20px;font-size:.9rem;color:#6b8aaa">Use your Voter ID to login.
+          <input type="text" id="loginVoterId" placeholder="Voter ID (e.g. voter1)" autocomplete="off">
+          <button class="primary" id="loginBtn" style="width:100%;justify-content:center">Access Ballot</button>
+          <p style="margin-top:18px;font-size:.85rem;color:#728ea9">
+            Need public results? Click the <strong>📊 Results</strong> tab anytime.
           </p>
         </div>
       </div>
+
+      <!-- 2. BALLOT PAGE -->
       <div id="page-ballot" class="page">
         <div class="card">
           <div class="flex-between">
-            <h2>📋 Cast your vote</h2><button class="secondary small" id="logoutBtn">Logout</button>
+            <h2>📋 Official Ballot</h2>
+            <button class="secondary small" id="logoutBtn">Logout</button>
           </div>
           <div id="ballotStatus" class="status-bar"></div>
+          <div id="ballotDeadlineNotice" style="margin-bottom:16px"></div>
           <div id="ballotContent">
-            <div class="empty-msg">Login to see elections.</div>
+            <div class="empty-msg">Login with your voter ID to view contests.</div>
           </div>
         </div>
       </div>
+
+      <!-- 3. PUBLIC RESULTS PAGE -->
+      <div id="page-results" class="page">
+        <div class="card">
+          <div class="flex-between" style="margin-bottom:18px">
+            <h2>📊 Public Election Results</h2>
+            <button class="secondary small" id="refreshResultsBtn">🔄 Refresh</button>
+          </div>
+          <div id="resultsStatusBanner"></div>
+          <div id="publicStatsContainer" class="stats-grid hidden"></div>
+          <div id="publicResultsList">
+            <div class="empty-msg">Loading election results...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. ADMIN PAGE -->
       <div id="page-admin" class="page">
+        <!-- Sign in panel -->
         <div class="card login-box" id="adminLoginPanel">
-          <h2>Administrator sign in</h2>
-          <p style="color:#4b6a89;margin-bottom:20px">Use an admin account.</p>
+          <h2>Administrator Sign In</h2>
+          <p style="color:#4b6a89;margin-bottom:18px">Requires verified electoral officer credentials.</p>
           <div id="adminLoginMessage" class="status-bar" role="status" style="display:none"></div>
           <form id="adminLoginForm">
             <input type="email" id="adminEmail" placeholder="Administrator email" autocomplete="username" required>
             <input type="password" id="adminPassword" placeholder="Password" autocomplete="current-password" required>
-            <button class="primary" id="adminLoginBtn" type="submit" style="width:100%;justify-content:center">Sign
-              in</button>
+            <button class="primary" id="adminLoginBtn" type="submit" style="width:100%;justify-content:center">Sign in</button>
           </form>
-          <button class="secondary small hidden" id="adminLogoutBtn" type="button" style="margin-top:12px">Sign
-            out</button>
+          <button class="secondary small hidden" id="adminLogoutBtn" type="button" style="margin-top:12px">Sign out</button>
         </div>
+
+        <!-- Dashboard panel -->
         <div id="adminDashboard" class="hidden">
           <div class="flex-between" style="margin-bottom:16px">
-            <div id="adminAccountLabel" class="status-bar"></div><button class="secondary small" id="dashboardLogoutBtn"
-              type="button">Sign out</button>
-          </div>
-          <div class="card">
-            <h2>👥 Voters</h2>
-            <div class="form-row">
-              <div class="form-group"><label>Voter ID</label><input id="voterIdInput" placeholder="e.g., voter3"></div>
-              <div class="form-group"><label>Full name</label><input id="voterNameInput" placeholder="Alice Johnson">
-              </div>
-              <div class="form-group" style="justify-content:flex-end; align-items:center; gap:8px">
-                <button class="secondary small hidden" id="cancelVoterEditBtn">Cancel</button>
-                <button class="primary" id="addVoterBtn">➕ Add voter</button>
-              </div>
-            </div>
-            <div id="voterListContainer" class="voter-list">
-              <div class="empty-msg">Loading voters...</div>
+            <div id="adminAccountLabel" class="status-bar"></div>
+            <div style="display:flex;gap:8px">
+              <button class="primary small" id="printReportBtn">🖨️ Print Official Report</button>
+              <button class="secondary small" id="dashboardLogoutBtn" type="button">Sign out</button>
             </div>
           </div>
+
+          <!-- Realtime Stats Banner -->
+          <div class="stats-grid" id="adminStatsGrid">
+            <div class="stat-card">
+              <span class="stat-label">👥 Total Voters</span>
+              <span class="stat-value" id="statTotalVoters">--</span>
+              <span class="stat-sub">Registered</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">🗳️ Ballots Cast</span>
+              <span class="stat-value" id="statBallotsCast">--</span>
+              <span class="stat-sub" id="statTotalVotesSub">-- total votes</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">📈 Voter Turnout</span>
+              <span class="stat-value" id="statTurnoutPercent">--%</span>
+              <span class="stat-sub">Participation rate</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">⏱️ Voting Status</span>
+              <span class="stat-value" style="font-size:1.4rem" id="statVotingStatus">--</span>
+              <span class="stat-sub" id="statDeadlineSub">No deadline set</span>
+            </div>
+          </div>
+
+          <!-- Electoral Operations Controls -->
           <div class="card">
-            <h2>🗳️ Elections</h2>
+            <h2>⚙️ Election Administration & Controls</h2>
+            <div class="ops-bar">
+              <div class="ops-group">
+                <span style="font-weight:600;color:#0b2b4f">Public Results:</span>
+                <span id="resultsPublishedBadge" class="badge badge-warning">Checking...</span>
+                <button class="secondary small" id="togglePublishBtn">Toggle Public Results</button>
+              </div>
+              <div class="ops-group">
+                <span style="font-weight:600;color:#0b2b4f">Voting State:</span>
+                <button class="secondary small danger" id="toggleVotingStateBtn">Pause Voting</button>
+              </div>
+            </div>
+
+            <div class="form-row" style="align-items:flex-end">
+              <div class="form-group" style="flex:2">
+                <label>Set Voting Deadline</label>
+                <input type="datetime-local" id="adminDeadlineInput">
+              </div>
+              <div class="form-group" style="flex:1">
+                <button class="primary small" id="saveDeadlineBtn" style="height:44px;justify-content:center">Save Deadline</button>
+              </div>
+              <div class="form-group" style="flex:1">
+                <button class="secondary small" id="clearDeadlineBtn" style="height:44px;justify-content:center">Clear Deadline</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Positions Management -->
+          <div class="card">
+            <h2>🏛️ Positions / Contests</h2>
+            <p style="color:#5e7c9a;margin-bottom:14px">Define elective offices candidates are vying for (e.g. President, Vice President, Secretary General, Treasurer).</p>
             <div class="form-row">
-              <div class="form-group"><label>Election title</label><input id="electionTitleInput"
-                  placeholder="2026 Student Council"></div>
-              <div class="form-group" style="justify-content:flex-end; align-items:center; gap:8px">
+              <div class="form-group" style="flex:3">
+                <label>Position Title</label>
+                <input id="electionTitleInput" placeholder="e.g. President or Secretary General">
+              </div>
+              <div class="form-group" style="flex:1;justify-content:flex-end;align-items:center;flex-direction:row;gap:8px">
                 <button class="secondary small hidden" id="cancelElectionEditBtn">Cancel</button>
-                <button class="primary" id="addElectionBtn">➕ Add election</button>
+                <button class="primary" id="addElectionBtn">➕ Add Position</button>
               </div>
             </div>
             <div id="electionListContainer" class="election-list">
-              <div class="empty-msg">Loading elections...</div>
+              <div class="empty-msg">Loading positions...</div>
             </div>
           </div>
+
+          <!-- Candidates Management -->
           <div class="card">
             <h2>🧑‍💼 Candidates</h2>
+            <p style="color:#5e7c9a;margin-bottom:14px">Assign candidates to specific positions.</p>
             <div class="form-row">
-              <div class="form-group"><label>Election</label><select id="candidateElectionSelect"></select></div>
-              <div class="form-group"><label>Candidate name</label><input id="candidateNameInput"
-                  placeholder="Jane Smith"></div>
-              <div class="form-group" style="justify-content:flex-end; align-items:center; gap:8px">
+              <div class="form-group" style="flex:2">
+                <label>Select Position</label>
+                <select id="candidateElectionSelect"></select>
+              </div>
+              <div class="form-group" style="flex:2">
+                <label>Candidate Name</label>
+                <input id="candidateNameInput" placeholder="Candidate full name">
+              </div>
+              <div class="form-group" style="flex:1;justify-content:flex-end;align-items:center;flex-direction:row;gap:8px">
                 <button class="secondary small hidden" id="cancelCandidateEditBtn">Cancel</button>
-                <button class="primary" id="addCandidateBtn">➕ Add candidate</button>
+                <button class="primary" id="addCandidateBtn">➕ Add Candidate</button>
               </div>
             </div>
             <div id="candidateListContainer" class="candidate-list">
               <div class="empty-msg">Loading candidates...</div>
             </div>
           </div>
-          <div class="status-bar">⏺️ Real Time Updates </div>
+
+          <!-- Voters Management -->
+          <div class="card">
+            <h2>👥 Registered Voters</h2>
+            <div class="form-row">
+              <div class="form-group"><label>Voter ID</label><input id="voterIdInput" placeholder="e.g. voter101"></div>
+              <div class="form-group"><label>Full Name</label><input id="voterNameInput" placeholder="Voter full name"></div>
+              <div class="form-group" style="justify-content:flex-end;align-items:center;flex-direction:row;gap:8px">
+                <button class="secondary small hidden" id="cancelVoterEditBtn">Cancel</button>
+                <button class="primary" id="addVoterBtn">➕ Add Voter</button>
+              </div>
+            </div>
+            <div id="voterListContainer" class="voter-list">
+              <div class="empty-msg">Loading voters...</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
+
+  <!-- PRINT-ONLY TEMPLATE FOR OFFICIAL CERTIFIED REPORT -->
+  <div id="officialReportPrintView">
+    <div class="print-header">
+      <h1>DESA DECIDES 2026</h1>
+      <h2>OFFICIAL ELECTORAL COMMISSION RESULTS & AUDIT RETURN</h2>
+      <p id="printGeneratedDate" style="font-size:10pt;color:#333;"></p>
+    </div>
+
+    <div class="print-meta-grid">
+      <div class="print-meta-item">
+        <div class="label">Total Registered Voters</div>
+        <div class="value" id="printTotalVoters">0</div>
+      </div>
+      <div class="print-meta-item">
+        <div class="label">Total Ballots Cast</div>
+        <div class="value" id="printBallotsCast">0</div>
+      </div>
+      <div class="print-meta-item">
+        <div class="label">Overall Turnout</div>
+        <div class="value" id="printTurnout">0%</div>
+      </div>
+      <div class="print-meta-item">
+        <div class="label">Electoral Status</div>
+        <div class="value" id="printStatus">OFFICIALLY CLOSED</div>
+      </div>
+    </div>
+
+    <div id="printPositionsContainer"></div>
+
+    <div class="print-signatures">
+      <div class="signature-block">
+        __________________________________________<br>
+        <strong>Chief Returning Officer</strong><br>
+        DESA Electoral Commission
+      </div>
+      <div class="signature-block">
+        __________________________________________<br>
+        <strong>Commission Chairperson</strong><br>
+        DESA Decides 2026
+      </div>
+    </div>
+  </div>
+
   <script src="./firebase-config.js"></script>
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
@@ -499,10 +959,13 @@
 
     const state = {
       currentUser: null,
+      userVotes: new Map(), // electionId -> candidateName
       adminUser: null,
       adminAccess: false,
       ballotData: null,
       adminData: null,
+      adminStats: null,
+      publicResults: null,
       editing: {
         voterId: null,
         electionId: null,
@@ -513,6 +976,7 @@
     const pages = {
       login: document.getElementById('page-login'),
       ballot: document.getElementById('page-ballot'),
+      results: document.getElementById('page-results'),
       admin: document.getElementById('page-admin')
     };
 
@@ -520,6 +984,7 @@
     const userBadge = document.getElementById('userBadge');
     const ballotContent = document.getElementById('ballotContent');
     const ballotStatus = document.getElementById('ballotStatus');
+    const ballotDeadlineNotice = document.getElementById('ballotDeadlineNotice');
     const voterListContainer = document.getElementById('voterListContainer');
     const electionListContainer = document.getElementById('electionListContainer');
     const candidateListContainer = document.getElementById('candidateListContainer');
@@ -540,6 +1005,37 @@
     const adminLoginBtn = document.getElementById('adminLoginBtn');
     const adminLogoutBtn = document.getElementById('adminLogoutBtn');
     const adminAccountLabel = document.getElementById('adminAccountLabel');
+
+    // Admin Operations elements
+    const statTotalVoters = document.getElementById('statTotalVoters');
+    const statBallotsCast = document.getElementById('statBallotsCast');
+    const statTotalVotesSub = document.getElementById('statTotalVotesSub');
+    const statTurnoutPercent = document.getElementById('statTurnoutPercent');
+    const statVotingStatus = document.getElementById('statVotingStatus');
+    const statDeadlineSub = document.getElementById('statDeadlineSub');
+    const resultsPublishedBadge = document.getElementById('resultsPublishedBadge');
+    const togglePublishBtn = document.getElementById('togglePublishBtn');
+    const toggleVotingStateBtn = document.getElementById('toggleVotingStateBtn');
+    const adminDeadlineInput = document.getElementById('adminDeadlineInput');
+    const saveDeadlineBtn = document.getElementById('saveDeadlineBtn');
+    const clearDeadlineBtn = document.getElementById('clearDeadlineBtn');
+    const printReportBtn = document.getElementById('printReportBtn');
+
+    // Public Results elements
+    const resultsStatusBanner = document.getElementById('resultsStatusBanner');
+    const publicStatsContainer = document.getElementById('publicStatsContainer');
+    const publicResultsList = document.getElementById('publicResultsList');
+    const refreshResultsBtn = document.getElementById('refreshResultsBtn');
+
+    function escapeHtml(value) {
+      return String(value ?? '').replace(/[&<>"']/g, (char) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      }[char]));
+    }
 
     function showAdminMessage(message) {
       adminLoginMessage.textContent = message;
@@ -568,16 +1064,6 @@
       return data;
     }
 
-    function escapeHtml(value) {
-      return String(value ?? '').replace(/[&<>"]'/g, (char) => ({
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#39;'
-      }[char]));
-    }
-
     function setUserBadge() {
       if (!state.currentUser) {
         userBadge.classList.add('hidden');
@@ -595,122 +1081,333 @@
     }
 
     function showPage(pageId) {
-      if (pageId === 'admin' && !state.adminAccess) {
-        adminLoginPanel.classList.remove('hidden');
-        adminDashboard.classList.add('hidden');
-      }
       Object.keys(pages).forEach((key) => {
         pages[key].classList.toggle('active-page', key === pageId);
       });
 
-      navButtons.forEach((button) => {
-        button.classList.toggle('active', button.dataset.page === pageId);
+      navButtons.forEach((btn) => {
+        btn.classList.toggle('active', btn.dataset.page === pageId);
       });
 
-      if (pageId === 'admin') loadAdminData();
       if (pageId === 'ballot') loadBallot();
+      if (pageId === 'results') loadPublicResults();
+      if (pageId === 'admin' && state.adminAccess) loadAdminData();
     }
 
-    function renderBallot(data = state.ballotData) {
-      const { elections = [], candidates = [] } = data || {};
-
+    // ──────────────────────────────────────────────────────────
+    // BALLOT LOGIC
+    // ──────────────────────────────────────────────────────────
+    async function loadBallot() {
       if (!state.currentUser) {
         ballotStatus.textContent = '';
-        renderEmptyState(ballotContent, 'Login to see elections.');
+        renderEmptyState(ballotContent, 'Login with your voter ID to view contests.');
         return;
       }
 
-      ballotStatus.textContent = `Logged in as ${state.currentUser.name} (${state.currentUser.voterId})`;
+      try {
+        const [ballotResponse, voterVotesResponse] = await Promise.all([
+          api('/ballot'),
+          api(`/voters/${encodeURIComponent(state.currentUser.voterId)}/votes`).catch(() => ({ votes: [] }))
+        ]);
+
+        state.ballotData = ballotResponse;
+        state.userVotes.clear();
+        (voterVotesResponse.votes || []).forEach(v => {
+          state.userVotes.set(v.electionId, v.candidateName);
+        });
+
+        renderBallot();
+      } catch (error) {
+        renderEmptyState(ballotContent, error.message);
+      }
+    }
+
+    function renderBallot() {
+      const { elections = [], candidates = [], votingAllowed = true, votingReason, votingDeadline } = state.ballotData || {};
+
+      ballotStatus.textContent = `Logged in: ${state.currentUser.name} (ID: ${state.currentUser.voterId})`;
+
+      // Render deadline info banner
+      let deadlineHtml = '';
+      if (!votingAllowed) {
+        deadlineHtml = `<div class="status-bar" style="background:#fee2e2;color:#991b1b;width:100%">⚠️ Voting is closed: ${escapeHtml(votingReason || 'Deadline reached.')}</div>`;
+      } else if (votingDeadline) {
+        const dateStr = new Date(votingDeadline).toLocaleString();
+        deadlineHtml = `<div class="status-bar" style="background:#def7ec;color:#03543f;width:100%">⏱️ Voting is OPEN until: <strong>${escapeHtml(dateStr)}</strong></div>`;
+      }
+      ballotDeadlineNotice.innerHTML = deadlineHtml;
 
       if (!elections.length) {
-        renderEmptyState(ballotContent, 'No elections available yet.');
+        renderEmptyState(ballotContent, 'No positions/contests configured yet.');
         return;
       }
 
       ballotContent.innerHTML = elections.map((election) => {
-        const options = candidates.filter((candidate) => candidate.electionId === election.id);
+        const options = candidates.filter((c) => c.electionId === election.id);
+        const alreadyVotedCandidate = state.userVotes.get(election.id);
 
         return `
-        <div style="margin-top:24px">
-          <h3 style="color:#0b2b4f;margin-bottom:12px">${escapeHtml(election.title)}</h3>
-          ${options.length ? `
-            <div class="ballot-grid">
-              ${options.map((candidate) => `
-                <div class="ballot-card">
-                  <h3>${escapeHtml(candidate.name)}</h3>
-                  <p>Candidate for ${escapeHtml(election.title)}</p>
-                  <button
-                    class="primary small vote-btn"
-                    data-election="${escapeHtml(election.id)}"
-                    data-candidate="${escapeHtml(candidate.id)}"
-                    data-title="${escapeHtml(election.title)}"
-                    data-name="${escapeHtml(candidate.name)}"
-                  >Vote</button>
-                </div>
-              `).join('')}
+          <div style="margin-top:24px;border-top:1px solid #eef3f8;padding-top:16px">
+            <div class="flex-between">
+              <h3 style="color:#0b2b4f;font-size:1.2rem">🏛️ ${escapeHtml(election.title)}</h3>
+              ${alreadyVotedCandidate ? '<span class="badge badge-success">✅ Vote Recorded</span>' : ''}
             </div>
-          ` : '<div class="empty-msg">No candidates for this election.</div>'}
-        </div>
-      `;
+
+            ${alreadyVotedCandidate ? `
+              <div class="ballot-card voted" style="margin-top:12px;max-width:380px">
+                <div style="font-size:.9rem;color:#03543f;font-weight:600">Your Vote:</div>
+                <h3 style="color:#03543f">${escapeHtml(alreadyVotedCandidate)}</h3>
+                <p style="color:#2f855a">Submitted and verified on the ballot.</p>
+              </div>
+            ` : (options.length ? `
+              <div class="ballot-grid">
+                ${options.map((cand) => `
+                  <div class="ballot-card">
+                    <h3>${escapeHtml(cand.name)}</h3>
+                    <p>Candidate for ${escapeHtml(election.title)}</p>
+                    <button
+                      class="primary small vote-btn"
+                      ${!votingAllowed ? 'disabled' : ''}
+                      data-election="${escapeHtml(election.id)}"
+                      data-candidate="${escapeHtml(cand.id)}"
+                      data-title="${escapeHtml(election.title)}"
+                      data-name="${escapeHtml(cand.name)}"
+                    >${votingAllowed ? 'Vote' : 'Voting Closed'}</button>
+                  </div>
+                `).join('')}
+              </div>
+            ` : '<div class="empty-msg">No candidates registered for this position yet.</div>')}
+          </div>
+        `;
       }).join('');
 
-      ballotContent.querySelectorAll('.vote-btn').forEach((button) => {
-        button.addEventListener('click', async () => {
-          const payload = {
-            voterId: state.currentUser.voterId,
-            voterName: state.currentUser.name,
-            electionId: button.dataset.election,
-            candidateId: button.dataset.candidate,
-            candidateName: button.dataset.name
-          };
+      ballotContent.querySelectorAll('.vote-btn').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const { election, candidate, title, name } = btn.dataset;
+          if (!confirm(`Confirm vote for ${name} for ${title}? This cannot be changed.`)) return;
 
-          button.disabled = true;
-          button.textContent = 'Voting...';
+          btn.disabled = true;
+          btn.textContent = 'Submitting...';
 
           try {
-            await api('/votes', { method: 'POST', body: payload });
-            alert(`Vote recorded for ${button.dataset.name} in ${button.dataset.title}.`);
+            await api('/votes', {
+              method: 'POST',
+              body: {
+                voterId: state.currentUser.voterId,
+                voterName: state.currentUser.name,
+                electionId: election,
+                candidateId: candidate,
+                candidateName: name
+              }
+            });
+            state.userVotes.set(election, name);
+            renderBallot();
           } catch (error) {
-            button.disabled = false;
-            button.textContent = 'Vote';
+            btn.disabled = false;
+            btn.textContent = 'Vote';
             alert(error.message);
           }
         });
       });
     }
 
-    async function loadBallot() {
-      if (!state.currentUser) {
-        ballotStatus.textContent = '';
-        renderEmptyState(ballotContent, 'Login to see elections.');
-        return;
-      }
-
-      if (state.ballotData) {
-        renderBallot();
-        return;
-      }
-
+    // ──────────────────────────────────────────────────────────
+    // PUBLIC RESULTS LOGIC
+    // ──────────────────────────────────────────────────────────
+    async function loadPublicResults() {
       try {
-        const ballotResponse = await api('/ballot');
-        state.ballotData = ballotResponse;
-        renderBallot(ballotResponse);
+        const data = await api('/results');
+        state.publicResults = data;
+        renderPublicResults(data);
       } catch (error) {
-        renderEmptyState(ballotContent, error.message);
+        renderEmptyState(publicResultsList, error.message);
       }
+    }
+
+    function renderPublicResults(data) {
+      if (!data || !data.published) {
+        publicStatsContainer.classList.add('hidden');
+        resultsStatusBanner.innerHTML = `
+          <div class="card" style="text-align:center;padding:36px;border:2px dashed #cbd5e1">
+            <div style="font-size:2.5rem;margin-bottom:12px">🔒</div>
+            <h3 style="color:#0b2b4f;margin-bottom:8px">Official Results Are Withheld</h3>
+            <p style="color:#5e7c9a;max-width:500px;margin:0 auto">
+              The Election Commission will publish the official tallies once polling concludes. Please check back later.
+            </p>
+          </div>
+        `;
+        publicResultsList.innerHTML = '';
+        return;
+      }
+
+      resultsStatusBanner.innerHTML = '';
+      publicStatsContainer.classList.remove('hidden');
+
+      publicStatsContainer.innerHTML = `
+        <div class="stat-card">
+          <span class="stat-label">👥 Total Voters</span>
+          <span class="stat-value">${data.totalVoters || 0}</span>
+          <span class="stat-sub">Registered</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">🗳️ Ballots Cast</span>
+          <span class="stat-value">${data.totalBallotsCast || 0}</span>
+          <span class="stat-sub">${data.totalVotesCast || 0} votes across contests</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">📈 Voter Turnout</span>
+          <span class="stat-value">${data.turnoutPercent || 0}%</span>
+          <span class="stat-sub">Participation</span>
+        </div>
+      `;
+
+      const positions = data.positions || [];
+      if (!positions.length) {
+        publicResultsList.innerHTML = '<div class="empty-msg">No positions available to display.</div>';
+        return;
+      }
+
+      publicResultsList.innerHTML = positions.map((pos) => {
+        const candidates = pos.candidates || [];
+        return `
+          <div class="results-card">
+            <div class="results-header">
+              <h3>🏛️ ${escapeHtml(pos.title)}</h3>
+              <span class="badge">${pos.totalVotes} total votes cast</span>
+            </div>
+            ${candidates.length ? candidates.map((cand, idx) => {
+              const isWinner = pos.winnerIds && pos.winnerIds.includes(cand.id);
+              return `
+                <div class="candidate-result-row">
+                  <div class="result-info">
+                    <span class="result-name">
+                      ${idx === 0 && isWinner ? '👑' : '•'} ${escapeHtml(cand.name)}
+                      ${isWinner ? '<span class="badge badge-winner">Leading / Winner</span>' : ''}
+                    </span>
+                    <span class="result-votes"><strong>${cand.votes}</strong> votes (${cand.percentage}%)</span>
+                  </div>
+                  <div class="progress-bar-bg">
+                    <div class="progress-bar-fill ${isWinner ? 'leader' : ''}" style="width:${Math.max(cand.percentage, 1)}%"></div>
+                  </div>
+                </div>
+              `;
+            }).join('') : '<div class="empty-msg">No candidates for this position.</div>'}
+          </div>
+        `;
+      }).join('');
+    }
+
+    refreshResultsBtn.addEventListener('click', loadPublicResults);
+
+    // ──────────────────────────────────────────────────────────
+    // ADMIN DASHBOARD & STATS LOGIC
+    // ──────────────────────────────────────────────────────────
+    async function loadAdminData() {
+      try {
+        const [adminData, statsData] = await Promise.all([
+          api('/admin/data'),
+          api('/admin/stats')
+        ]);
+
+        state.adminData = adminData;
+        state.adminStats = statsData;
+
+        renderAdminData(adminData);
+        renderAdminStats(statsData);
+        syncAdminFormButtons();
+      } catch (error) {
+        alert(error.message);
+      }
+    }
+
+    function renderAdminStats(statsData) {
+      if (!statsData) return;
+      const { settings = {}, totalVoters = 0, totalBallotsCast = 0, totalVotesCast = 0, turnoutPercent = 0 } = statsData;
+
+      statTotalVoters.textContent = totalVoters;
+      statBallotsCast.textContent = totalBallotsCast;
+      statTotalVotesSub.textContent = `${totalVotesCast} total votes cast`;
+      statTurnoutPercent.textContent = `${turnoutPercent}%`;
+
+      const isOpen = settings.votingOpen !== false;
+      statVotingStatus.textContent = isOpen ? '🟢 Active' : '🔴 Closed';
+      toggleVotingStateBtn.textContent = isOpen ? 'Pause Voting' : 'Resume Voting';
+      toggleVotingStateBtn.className = isOpen ? 'secondary small danger' : 'secondary small';
+
+      if (settings.votingDeadline) {
+        const d = new Date(settings.votingDeadline);
+        statDeadlineSub.textContent = `Deadline: ${d.toLocaleDateString()} ${d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+        // Pre-fill datetime-local
+        try {
+          adminDeadlineInput.value = d.toISOString().slice(0, 16);
+        } catch {}
+      } else {
+        statDeadlineSub.textContent = 'No deadline set (indefinite)';
+        adminDeadlineInput.value = '';
+      }
+
+      const isPublished = Boolean(settings.resultsPublished);
+      resultsPublishedBadge.textContent = isPublished ? '🟢 Published to Public' : '🔴 Hidden from Public';
+      resultsPublishedBadge.className = isPublished ? 'badge badge-success' : 'badge badge-warning';
+      togglePublishBtn.textContent = isPublished ? 'Unpublish Results' : 'Publish to Public';
+
+      // Update Printable Report DOM
+      updatePrintableReport(statsData);
+    }
+
+    function updatePrintableReport(statsData) {
+      const { settings = {}, totalVoters = 0, totalBallotsCast = 0, turnoutPercent = 0, positions = [] } = statsData;
+
+      document.getElementById('printGeneratedDate').textContent = `Official Certification Document • Generated: ${new Date().toLocaleString()}`;
+      document.getElementById('printTotalVoters').textContent = totalVoters;
+      document.getElementById('printBallotsCast').textContent = totalBallotsCast;
+      document.getElementById('printTurnout').textContent = `${turnoutPercent}%`;
+      document.getElementById('printStatus').textContent = settings.votingOpen === false ? 'CONCLUDED & CERTIFIED' : 'INTERIM AUDIT REPORT';
+
+      const container = document.getElementById('printPositionsContainer');
+      container.innerHTML = positions.map((pos) => `
+        <div class="print-position">
+          <h3>CONTEST: ${escapeHtml(pos.title).toUpperCase()} (Total Votes: ${pos.totalVotes})</h3>
+          <table class="print-table">
+            <thead>
+              <tr>
+                <th style="width:40px">Rank</th>
+                <th>Candidate Name</th>
+                <th style="width:120px">Votes Received</th>
+                <th style="width:100px">Vote Share</th>
+                <th style="width:140px">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${(pos.candidates || []).map((cand, idx) => {
+                const isWinner = pos.winnerIds && pos.winnerIds.includes(cand.id);
+                return `
+                  <tr class="${isWinner ? 'print-winner-row' : ''}">
+                    <td>${idx + 1}</td>
+                    <td><strong>${escapeHtml(cand.name)}</strong></td>
+                    <td>${cand.votes}</td>
+                    <td>${cand.percentage}%</td>
+                    <td>${isWinner ? '🏆 ELECTED / LEADING' : 'Not Elected'}</td>
+                  </tr>
+                `;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>
+      `).join('');
     }
 
     function syncAdminFormButtons() {
       const voterEditing = Boolean(state.editing.voterId);
-      addVoterBtn.textContent = voterEditing ? '💾 Save voter' : '➕ Add voter';
+      addVoterBtn.textContent = voterEditing ? '💾 Save Voter' : '➕ Add Voter';
       cancelVoterEditBtn.classList.toggle('hidden', !voterEditing);
 
       const electionEditing = Boolean(state.editing.electionId);
-      addElectionBtn.textContent = electionEditing ? '💾 Save election' : '➕ Add election';
+      addElectionBtn.textContent = electionEditing ? '💾 Save Position' : '➕ Add Position';
       cancelElectionEditBtn.classList.toggle('hidden', !electionEditing);
 
       const candidateEditing = Boolean(state.editing.candidateId);
-      addCandidateBtn.textContent = candidateEditing ? '💾 Save candidate' : '➕ Add candidate';
+      addCandidateBtn.textContent = candidateEditing ? '💾 Save Candidate' : '➕ Add Candidate';
       cancelCandidateEditBtn.classList.toggle('hidden', !candidateEditing);
 
       voterIdInput.disabled = voterEditing;
@@ -733,7 +1430,7 @@
           <div class="list-item">
             <div class="info">
               <span class="title">${escapeHtml(voter.name)}</span>
-              <span class="sub">ID: ${escapeHtml(voter.id)}</span>
+              <span class="sub">Voter ID: ${escapeHtml(voter.id)}</span>
             </div>
             <div class="list-actions">
               <span class="badge">voter</span>
@@ -742,7 +1439,7 @@
             </div>
           </div>
         `).join('')
-        : '<div class="empty-msg">No voters yet.</div>';
+        : '<div class="empty-msg">No voters registered yet.</div>';
 
       electionListContainer.innerHTML = elections.length
         ? elections.map((election) => `
@@ -752,28 +1449,28 @@
               <span class="sub">ID: ${escapeHtml(election.id)}</span>
             </div>
             <div class="list-actions">
-              <span class="badge">election</span>
+              <span class="badge">position</span>
               <button class="action-btn edit" data-type="election" data-id="${escapeHtml(election.id)}">Edit</button>
               <button class="action-btn delete" data-type="election" data-id="${escapeHtml(election.id)}">Delete</button>
             </div>
           </div>
         `).join('')
-        : '<div class="empty-msg">No elections yet.</div>';
+        : '<div class="empty-msg">No positions created yet.</div>';
 
       candidateElectionSelect.innerHTML = elections.length
         ? elections.map((election) => `
           <option value="${escapeHtml(election.id)}">${escapeHtml(election.title)}</option>
         `).join('')
-        : '<option value="">-- No elections --</option>';
+        : '<option value="">-- No positions available --</option>';
 
-      const titleMap = Object.fromEntries(elections.map((election) => [election.id, election.title]));
+      const titleMap = Object.fromEntries(elections.map((e) => [e.id, e.title]));
 
       candidateListContainer.innerHTML = candidates.length
         ? candidates.map((candidate) => `
           <div class="list-item">
             <div class="info">
               <span class="title">${escapeHtml(candidate.name)}</span>
-              <span class="sub">Election: ${escapeHtml(titleMap[candidate.electionId] || candidate.electionId)}</span>
+              <span class="sub">Position: ${escapeHtml(titleMap[candidate.electionId] || candidate.electionId)}</span>
             </div>
             <div class="list-actions">
               <span class="badge">candidate</span>
@@ -782,7 +1479,7 @@
             </div>
           </div>
         `).join('')
-        : '<div class="empty-msg">No candidates yet.</div>';
+        : '<div class="empty-msg">No candidates registered yet.</div>';
 
       bindAdminActionButtons();
     }
@@ -829,17 +1526,14 @@
       document.querySelectorAll('.action-btn.delete').forEach((button) => {
         button.addEventListener('click', async () => {
           const { type, id } = button.dataset;
-
-          if (!confirm(`Delete this ${type}? This cannot be undone.`)) return;
+          if (!confirm(`Delete this ${type}? Associated votes and records will be deleted.`)) return;
 
           try {
             const endpoint = type === 'voter' ? `/admin/voters/${encodeURIComponent(id)}` : type === 'election' ? `/admin/elections/${encodeURIComponent(id)}` : `/admin/candidates/${encodeURIComponent(id)}`;
             await api(endpoint, { method: 'DELETE' });
-            state.adminData = null;
-            state.ballotData = null;
+            clearAdminEditing();
             await loadAdminData();
             if (state.currentUser) loadBallot();
-            clearAdminEditing();
           } catch (error) {
             alert(error.message);
           }
@@ -847,28 +1541,80 @@
       });
     }
 
-    async function loadAdminData() {
-      if (!state.adminAccess) return;
-      if (state.adminData) {
-        renderAdminData();
-        return;
-      }
-
+    // Admin Operation Button Handlers
+    togglePublishBtn.addEventListener('click', async () => {
+      const current = Boolean(state.adminStats?.settings?.resultsPublished);
       try {
-        const adminData = await api('/admin/data');
-        state.adminData = adminData;
-        renderAdminData(adminData);
-        syncAdminFormButtons();
+        await api('/admin/settings', {
+          method: 'POST',
+          body: { resultsPublished: !current }
+        });
+        await loadAdminData();
       } catch (error) {
         alert(error.message);
       }
-    }
+    });
 
+    toggleVotingStateBtn.addEventListener('click', async () => {
+      const isOpen = state.adminStats?.settings?.votingOpen !== false;
+      if (!confirm(isOpen ? 'Are you sure you want to pause/close voting?' : 'Re-open voting for voters?')) return;
+      try {
+        await api('/admin/settings', {
+          method: 'POST',
+          body: { votingOpen: !isOpen }
+        });
+        await loadAdminData();
+      } catch (error) {
+        alert(error.message);
+      }
+    });
+
+    saveDeadlineBtn.addEventListener('click', async () => {
+      const val = adminDeadlineInput.value;
+      if (!val) {
+        alert('Please select a valid date and time.');
+        return;
+      }
+      try {
+        await api('/admin/settings', {
+          method: 'POST',
+          body: { votingDeadline: new Date(val).toISOString() }
+        });
+        alert('Voting deadline updated successfully.');
+        await loadAdminData();
+      } catch (error) {
+        alert(error.message);
+      }
+    });
+
+    clearDeadlineBtn.addEventListener('click', async () => {
+      if (!confirm('Clear the voting deadline? (Voting will run indefinitely)')) return;
+      try {
+        await api('/admin/settings', {
+          method: 'POST',
+          body: { votingDeadline: null }
+        });
+        await loadAdminData();
+      } catch (error) {
+        alert(error.message);
+      }
+    });
+
+    printReportBtn.addEventListener('click', () => {
+      if (state.adminStats) {
+        updatePrintableReport(state.adminStats);
+      }
+      window.print();
+    });
+
+    // ──────────────────────────────────────────────────────────
+    // NAVIGATION & AUTH LISTENERS
+    // ──────────────────────────────────────────────────────────
     navButtons.forEach((button) => {
       button.addEventListener('click', (event) => {
         const page = event.currentTarget.dataset.page;
         if (page === 'ballot' && !state.currentUser) {
-          alert('Please log in first.');
+          alert('Please log in with your Voter ID first.');
           showPage('login');
           return;
         }
@@ -879,7 +1625,7 @@
     document.getElementById('adminLoginForm').addEventListener('submit', async (event) => {
       event.preventDefault();
       if (!auth) {
-        showAdminMessage('Firebase web configuration is missing. Set it in frontend/firebase-config.js.');
+        showAdminMessage('Firebase web configuration is missing in frontend/firebase-config.js.');
         return;
       }
       adminLoginBtn.disabled = true;
@@ -899,6 +1645,7 @@
       state.adminUser = null;
       state.adminAccess = false;
       state.adminData = null;
+      state.adminStats = null;
       adminDashboard.classList.add('hidden');
       adminLoginPanel.classList.remove('hidden');
       showAdminMessage('Signed out.');
@@ -911,48 +1658,52 @@
       onAuthStateChanged(auth, async (user) => {
         state.adminUser = user;
         state.adminAccess = false;
-        state.adminData = null;
         adminLogoutBtn.classList.toggle('hidden', !user);
         adminDashboard.classList.add('hidden');
         adminLoginPanel.classList.remove('hidden');
         if (!user) return;
 
-        showAdminMessage('Checking administrator access...');
+        showAdminMessage('Checking administrator authorization...');
         try {
-          const adminData = await api('/admin/data');
+          const [adminData, statsData] = await Promise.all([
+            api('/admin/data'),
+            api('/admin/stats')
+          ]);
           state.adminAccess = true;
           state.adminData = adminData;
-          adminAccountLabel.textContent = `Signed in as ${user.email}`;
+          state.adminStats = statsData;
+
+          adminAccountLabel.textContent = `Signed in: ${user.email}`;
           adminLoginPanel.classList.add('hidden');
           adminDashboard.classList.remove('hidden');
+
           renderAdminData(adminData);
+          renderAdminStats(statsData);
           syncAdminFormButtons();
         } catch (error) {
           showAdminMessage(error.message);
         }
       });
-    } else {
-      showAdminMessage('Firebase web configuration is missing. Set it in frontend/firebase-config.js.');
     }
 
+    // Voter Login Listener
     document.getElementById('loginBtn').addEventListener('click', async () => {
       const loginInput = document.getElementById('loginVoterId');
       const message = document.getElementById('loginMessage');
       const voterId = loginInput.value.trim();
 
       if (!voterId) {
-        message.textContent = 'Please enter a voter ID.';
+        message.textContent = 'Please enter your Voter ID.';
         message.style.display = 'block';
         return;
       }
 
       try {
         const voter = await api(`/voters/${encodeURIComponent(voterId)}`);
-        state.currentUser = { voterId, name: voter.name || voterId };
-        setUserBadge();
-        message.style.display = 'none';
+        state.currentUser = { voterId, name: voter.name };
         loginInput.value = '';
-        state.ballotData = null;
+        message.style.display = 'none';
+        setUserBadge();
         showPage('ballot');
       } catch (error) {
         message.textContent = error.message;
@@ -962,49 +1713,36 @@
 
     document.getElementById('logoutBtn').addEventListener('click', () => {
       state.currentUser = null;
+      state.userVotes.clear();
       setUserBadge();
       showPage('login');
     });
 
-    async function handleVoterSubmit() {
+    // Positions & Candidates Form Submit Handlers
+    addVoterBtn.addEventListener('click', async () => {
       const id = voterIdInput.value.trim();
       const name = voterNameInput.value.trim();
-
-      if (!name) {
-        alert('Please enter a voter name.');
-        return;
-      }
+      if (!name) return alert('Please enter voter name.');
 
       try {
         if (state.editing.voterId) {
           await api(`/admin/voters/${encodeURIComponent(state.editing.voterId)}`, { method: 'PUT', body: { name } });
         } else {
-          if (!id) {
-            alert('Please enter a voter ID.');
-            return;
-          }
+          if (!id) return alert('Please enter a voter ID.');
           await api('/admin/voters', { method: 'POST', body: { id, name } });
         }
-
-        voterIdInput.value = '';
-        voterNameInput.value = '';
-        state.adminData = null;
-        state.ballotData = null;
         clearAdminEditing();
         await loadAdminData();
-        if (state.currentUser) loadBallot();
       } catch (error) {
         alert(error.message);
       }
-    }
+    });
 
-    async function handleElectionSubmit() {
+    cancelVoterEditBtn.addEventListener('click', clearAdminEditing);
+
+    addElectionBtn.addEventListener('click', async () => {
       const title = electionTitleInput.value.trim();
-
-      if (!title) {
-        alert('Please enter election title.');
-        return;
-      }
+      if (!title) return alert('Please enter position title.');
 
       try {
         if (state.editing.electionId) {
@@ -1012,26 +1750,20 @@
         } else {
           await api('/admin/elections', { method: 'POST', body: { title } });
         }
-
-        electionTitleInput.value = '';
-        state.adminData = null;
-        state.ballotData = null;
         clearAdminEditing();
         await loadAdminData();
         if (state.currentUser) loadBallot();
       } catch (error) {
         alert(error.message);
       }
-    }
+    });
 
-    async function handleCandidateSubmit() {
+    cancelElectionEditBtn.addEventListener('click', clearAdminEditing);
+
+    addCandidateBtn.addEventListener('click', async () => {
       const electionId = candidateElectionSelect.value;
       const name = candidateNameInput.value.trim();
-
-      if (!electionId || !name) {
-        alert('Please select an election and enter candidate name.');
-        return;
-      }
+      if (!electionId || !name) return alert('Please select a position and enter candidate name.');
 
       try {
         if (state.editing.candidateId) {
@@ -1039,41 +1771,17 @@
         } else {
           await api('/admin/candidates', { method: 'POST', body: { electionId, name } });
         }
-
-        candidateNameInput.value = '';
-        state.adminData = null;
-        state.ballotData = null;
         clearAdminEditing();
         await loadAdminData();
         if (state.currentUser) loadBallot();
       } catch (error) {
         alert(error.message);
       }
-    }
-
-    addVoterBtn.addEventListener('click', handleVoterSubmit);
-    cancelVoterEditBtn.addEventListener('click', () => {
-      state.editing.voterId = null;
-      voterIdInput.value = '';
-      voterNameInput.value = '';
-      syncAdminFormButtons();
     });
 
-    addElectionBtn.addEventListener('click', handleElectionSubmit);
-    cancelElectionEditBtn.addEventListener('click', () => {
-      state.editing.electionId = null;
-      electionTitleInput.value = '';
-      syncAdminFormButtons();
-    });
+    cancelCandidateEditBtn.addEventListener('click', clearAdminEditing);
 
-    addCandidateBtn.addEventListener('click', handleCandidateSubmit);
-    cancelCandidateEditBtn.addEventListener('click', () => {
-      state.editing.candidateId = null;
-      candidateNameInput.value = '';
-      syncAdminFormButtons();
-    });
-
-    syncAdminFormButtons();
+    // Initial load
     showPage('login');
   </script>
 </body>

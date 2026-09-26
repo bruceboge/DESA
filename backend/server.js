@@ -113,6 +113,96 @@ async function listCollection(name, orderBy = 'name') {
   return snapshot.docs.map(cleanDoc);
 }
 
+async function getElectionSettings() {
+  const doc = await db.collection('settings').doc('election').get();
+  if (!doc.exists) {
+    return {
+      resultsPublished: false,
+      votingOpen: true,
+      votingDeadline: null
+    };
+  }
+  const data = doc.data() || {};
+  return {
+    resultsPublished: Boolean(data.resultsPublished),
+    votingOpen: data.votingOpen !== false,
+    votingDeadline: data.votingDeadline || null
+  };
+}
+
+function isVotingAllowed(settings) {
+  if (!settings.votingOpen) {
+    return { allowed: false, reason: 'Voting has been closed by the election administration.' };
+  }
+  if (settings.votingDeadline) {
+    const deadline = new Date(settings.votingDeadline).getTime();
+    if (!Number.isNaN(deadline) && Date.now() > deadline) {
+      return { allowed: false, reason: 'The deadline for voting has passed.' };
+    }
+  }
+  return { allowed: true };
+}
+
+async function computeResults() {
+  const [elections, candidates, votesSnapshot, votersSnapshot] = await Promise.all([
+    listCollection('elections', 'title'),
+    listCollection('candidates', 'name'),
+    db.collection('votes').get(),
+    db.collection('voters').get()
+  ]);
+
+  const totalVoters = votersSnapshot.size;
+  const uniqueVoters = new Set();
+  const votes = [];
+  votesSnapshot.forEach(doc => {
+    const data = doc.data();
+    uniqueVoters.add(data.voterId);
+    votes.push(data);
+  });
+
+  const totalVotesCast = votes.length;
+  const turnoutPercent = totalVoters > 0 ? Number(((uniqueVoters.size / totalVoters) * 100).toFixed(1)) : 0;
+
+  const positions = elections.map(election => {
+    const positionCandidates = candidates.filter(c => c.electionId === election.id);
+    const candidateTallies = positionCandidates.map(candidate => {
+      const candidateVotes = votes.filter(v => v.electionId === election.id && v.candidateId === candidate.id).length;
+      return {
+        id: candidate.id,
+        name: candidate.name,
+        votes: candidateVotes,
+        percentage: 0
+      };
+    });
+
+    const positionTotalVotes = candidateTallies.reduce((sum, c) => sum + c.votes, 0);
+    let maxVotes = 0;
+    candidateTallies.forEach(c => {
+      c.percentage = positionTotalVotes > 0 ? Number(((c.votes / positionTotalVotes) * 100).toFixed(1)) : 0;
+      if (c.votes > maxVotes) maxVotes = c.votes;
+    });
+
+    candidateTallies.sort((a, b) => b.votes - a.votes);
+    const winnerIds = maxVotes > 0 ? candidateTallies.filter(c => c.votes === maxVotes).map(c => c.id) : [];
+
+    return {
+      id: election.id,
+      title: election.title,
+      totalVotes: positionTotalVotes,
+      candidates: candidateTallies,
+      winnerIds
+    };
+  });
+
+  return {
+    totalVoters,
+    totalBallotsCast: uniqueVoters.size,
+    totalVotesCast,
+    turnoutPercent,
+    positions
+  };
+}
+
 app.get('/api/health', (_req, res) => res.json({ ok: true }));
 
 app.get('/api/voters/:voterId', async (req, res, next) => {
@@ -123,13 +213,60 @@ app.get('/api/voters/:voterId', async (req, res, next) => {
   } catch (error) { next(error); }
 });
 
+app.get('/api/voters/:voterId/votes', async (req, res, next) => {
+  try {
+    const voterId = req.params.voterId;
+    const votesSnapshot = await db.collection('votes').where('voterId', '==', voterId).get();
+    const votes = votesSnapshot.docs.map(doc => {
+      const data = doc.data();
+      return {
+        electionId: data.electionId,
+        candidateId: data.candidateId,
+        candidateName: data.candidateName
+      };
+    });
+    res.json({ votes });
+  } catch (error) { next(error); }
+});
+
 app.get('/api/ballot', async (_req, res, next) => {
   try {
-    const [elections, candidates] = await Promise.all([
+    const [elections, candidates, settings] = await Promise.all([
       listCollection('elections', 'title'),
-      listCollection('candidates', 'name')
+      listCollection('candidates', 'name'),
+      getElectionSettings()
     ]);
-    res.json({ elections, candidates });
+    const check = isVotingAllowed(settings);
+    res.json({
+      elections,
+      candidates,
+      votingAllowed: check.allowed,
+      votingReason: check.reason || null,
+      votingDeadline: settings.votingDeadline,
+      votingOpen: settings.votingOpen
+    });
+  } catch (error) { next(error); }
+});
+
+// Public results endpoint — accessible to all, gated by admin's resultsPublished toggle
+app.get('/api/results', async (_req, res, next) => {
+  try {
+    const settings = await getElectionSettings();
+    if (!settings.resultsPublished) {
+      return res.json({
+        published: false,
+        message: 'Official results have not been published by the election commission yet.',
+        votingOpen: settings.votingOpen,
+        votingDeadline: settings.votingDeadline
+      });
+    }
+    const tally = await computeResults();
+    res.json({
+      published: true,
+      ...tally,
+      votingOpen: settings.votingOpen,
+      votingDeadline: settings.votingDeadline
+    });
   } catch (error) { next(error); }
 });
 
@@ -139,6 +276,13 @@ app.post('/api/votes', voteLimiter, async (req, res, next) => {
     if (!voterId || !voterName || !electionId || !candidateId || !candidateName) {
       return res.status(400).json({ error: 'Missing vote details.' });
     }
+
+    const settings = await getElectionSettings();
+    const check = isVotingAllowed(settings);
+    if (!check.allowed) {
+      return res.status(403).json({ error: check.reason });
+    }
+
     const voteRef = db.collection('votes').doc(`${voterId}_${electionId}`);
     await db.runTransaction(async transaction => {
       const existingVote = await transaction.get(voteRef);
@@ -156,6 +300,38 @@ app.post('/api/votes', voteLimiter, async (req, res, next) => {
 });
 
 app.use('/api/admin', adminLimiter, requireAdmin);
+
+// Admin stats: complete real-time tallies, turnout %, and settings
+app.get('/api/admin/stats', async (_req, res, next) => {
+  try {
+    const [settings, tally] = await Promise.all([
+      getElectionSettings(),
+      computeResults()
+    ]);
+    res.json({
+      settings,
+      ...tally
+    });
+  } catch (error) { next(error); }
+});
+
+// Admin settings: toggle results published, deadline, open/close voting
+app.post('/api/admin/settings', async (req, res, next) => {
+  try {
+    const { resultsPublished, votingOpen, votingDeadline } = req.body;
+    const updateData = {};
+    if (resultsPublished !== undefined) updateData.resultsPublished = Boolean(resultsPublished);
+    if (votingOpen !== undefined) updateData.votingOpen = Boolean(votingOpen);
+    if (votingDeadline !== undefined) {
+      updateData.votingDeadline = votingDeadline ? new Date(votingDeadline).toISOString() : null;
+    }
+    updateData.updatedAt = FieldValue.serverTimestamp();
+
+    await db.collection('settings').doc('election').set(updateData, { merge: true });
+    const settings = await getElectionSettings();
+    res.json({ ok: true, settings });
+  } catch (error) { next(error); }
+});
 
 app.get('/api/admin/data', async (_req, res, next) => {
   try {
@@ -274,7 +450,7 @@ app.delete('/api/admin/candidates/:id', async (req, res, next) => {
 app.get('/', (_req, res) => res.json({
   service: 'DESA Decides 2026 API',
   status: 'running',
-  endpoints: '/api/health, /api/ballot, /api/voters/:id, /api/votes, /api/admin/*',
+  endpoints: '/api/health, /api/ballot, /api/results, /api/voters/:id, /api/voters/:id/votes, /api/votes, /api/admin/*',
   note: 'The frontend is served separately (Vercel in production, Live Server locally).'
 }));
 
