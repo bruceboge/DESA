@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DESA Decides 2026 - Administrator Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div class="app-container">
+    <div class="header">
+      <div class="header-brand">
+        <img class="brand-logo" src="logo.jpg" alt="DESA logo" onerror="this.style.display='none';" />
+        <h1><a href="index.html">🗳️ DESA Decides 2026</a> <span>Official</span></h1>
+      </div>
+      <div class="nav-tabs">
+        <a href="index.html">🔐 Login</a>
+        <a href="ballot.html">📋 Ballot</a>
+        <a href="results.html">📊 Results</a>
+        <a href="admin.html" class="active">⚙️ Admin</a>
+      </div>
+    </div>
+
+    <div class="content">
+      <!-- Admin Sign In Box -->
+      <div class="card login-box" id="adminLoginPanel">
+        <h2>Administrator Sign In</h2>
+        <p style="color:#4b6a89;margin-bottom:18px">Requires authorized electoral officer credentials.</p>
+        <div id="adminLoginMessage" class="status-bar" role="status" style="display:none;width:100%;text-align:center"></div>
+        <form id="adminLoginForm">
+          <input type="email" id="adminEmail" placeholder="Administrator email" autocomplete="username" required>
+          <input type="password" id="adminPassword" placeholder="Password" autocomplete="current-password" required>
+          <button class="primary" id="adminLoginBtn" type="submit" style="width:100%;justify-content:center;margin-top:8px">
+            Sign In to Dashboard
+          </button>
+        </form>
+      </div>
+
+      <!-- Admin Dashboard Panel -->
+      <div id="adminDashboard" class="hidden">
+        <div class="flex-between" style="margin-bottom:16px">
+          <div id="adminAccountLabel" class="status-bar">Connecting to electoral administration...</div>
+          <div style="display:flex;gap:8px">
+            <button class="primary small" id="printReportBtn">🖨️ Print Official Report</button>
+            <button class="secondary small" id="adminLogoutBtn" type="button">Sign Out</button>
+          </div>
+        </div>
+
+        <!-- Realtime Turnout & Stats Banner -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-label">👥 Total Voters</span>
+            <span class="stat-value" id="statTotalVoters">--</span>
+            <span class="stat-sub">Registered in database</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">🗳️ Ballots Cast</span>
+            <span class="stat-value" id="statBallotsCast">--</span>
+            <span class="stat-sub" id="statTotalVotesSub">-- total votes</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">📈 Voter Turnout</span>
+            <span class="stat-value" id="statTurnoutPercent">--%</span>
+            <span class="stat-sub">Participation rate</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">⏱️ Voting Status</span>
+            <span class="stat-value" style="font-size:1.35rem" id="statVotingStatus">--</span>
+            <span class="stat-sub" id="statDeadlineSub">No deadline set</span>
+          </div>
+        </div>
+
+        <!-- Election Operations Controls -->
+        <div class="card">
+          <h2>⚙️ Electoral Controls & Operations</h2>
+          <div class="ops-bar">
+            <div class="ops-group">
+              <span style="font-weight:600;color:#0b2b4f">Public Results:</span>
+              <span id="resultsPublishedBadge" class="badge badge-warning">Checking...</span>
+              <button class="secondary small" id="togglePublishBtn">Toggle Public Results</button>
+            </div>
+            <div class="ops-group">
+              <span style="font-weight:600;color:#0b2b4f">Ballot State:</span>
+              <button class="secondary small danger" id="toggleVotingStateBtn">Pause Voting</button>
+            </div>
+          </div>
+
+          <div class="form-row" style="align-items:flex-end">
+            <div class="form-group" style="flex:2">
+              <label>Set Voting Deadline</label>
+              <input type="datetime-local" id="adminDeadlineInput">
+            </div>
+            <div class="form-group" style="flex:1">
+              <button class="primary small" id="saveDeadlineBtn" style="height:44px;justify-content:center">Save Deadline</button>
+            </div>
+            <div class="form-group" style="flex:1">
+              <button class="secondary small" id="clearDeadlineBtn" style="height:44px;justify-content:center">Clear Deadline</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Positions / Contests Card -->
+        <div class="card">
+          <h2>🏛️ Positions / Contests</h2>
+          <p style="color:#5e7c9a;margin-bottom:14px">Define the offices candidates are vying for (e.g. President, Vice President, Secretary General, Treasurer).</p>
+          <div class="form-row">
+            <div class="form-group" style="flex:3">
+              <label>Position Title</label>
+              <input id="electionTitleInput" placeholder="e.g. President or Secretary General">
+            </div>
+            <div class="form-group" style="flex:1;justify-content:flex-end;align-items:center;flex-direction:row;gap:8px">
+              <button class="secondary small hidden" id="cancelElectionEditBtn">Cancel</button>
+              <button class="primary" id="addElectionBtn">➕ Add Position</button>
+            </div>
+          </div>
+          <div id="electionListContainer" class="election-list">
+            <div class="empty-msg">Loading positions...</div>
+          </div>
+        </div>
+
+        <!-- Candidates Management Card -->
+        <div class="card">
+          <h2>🧑‍💼 Candidates</h2>
+          <p style="color:#5e7c9a;margin-bottom:14px">Register candidates under a specific elective position.</p>
+          <div class="form-row">
+            <div class="form-group" style="flex:2">
+              <label>Select Position</label>
+              <select id="candidateElectionSelect"></select>
+            </div>
+            <div class="form-group" style="flex:2">
+              <label>Candidate Name</label>
+              <input id="candidateNameInput" placeholder="Candidate full name">
+            </div>
+            <div class="form-group" style="flex:1;justify-content:flex-end;align-items:center;flex-direction:row;gap:8px">
+              <button class="secondary small hidden" id="cancelCandidateEditBtn">Cancel</button>
+              <button class="primary" id="addCandidateBtn">➕ Add Candidate</button>
+            </div>
+          </div>
+          <div id="candidateListContainer" class="candidate-list">
+            <div class="empty-msg">Loading candidates...</div>
+          </div>
+        </div>
+
+        <!-- Registered Voters Management Card -->
+        <div class="card">
+          <h2>👥 Registered Voters</h2>
+          <div class="form-row">
+            <div class="form-group"><label>Voter ID</label><input id="voterIdInput" placeholder="e.g. voter101"></div>
+            <div class="form-group"><label>Full Name</label><input id="voterNameInput" placeholder="Voter full name"></div>
+            <div class="form-group" style="justify-content:flex-end;align-items:center;flex-direction:row;gap:8px">
+              <button class="secondary small hidden" id="cancelVoterEditBtn">Cancel</button>
+              <button class="primary" id="addVoterBtn">➕ Add Voter</button>
+            </div>
+          </div>
+          <div id="voterListContainer" class="voter-list">
+            <div class="empty-msg">Loading voters...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRINT-ONLY TEMPLATE FOR CERTIFIED RETURN -->
+  <div id="officialReportPrintView">
+    <div class="print-header">
+      <h1>DESA DECIDES 2026</h1>
+      <h2>OFFICIAL ELECTORAL COMMISSION RESULTS & AUDIT RETURN</h2>
+      <p id="printGeneratedDate" style="font-size:10pt;color:#333;"></p>
+    </div>
+
+    <div class="print-meta-grid">
+      <div class="print-meta-item">
+        <div class="label">Total Registered Voters</div>
+        <div class="value" id="printTotalVoters">0</div>
+      </div>
+      <div class="print-meta-item">
+        <div class="label">Total Ballots Cast</div>
+        <div class="value" id="printBallotsCast">0</div>
+      </div>
+      <div class="print-meta-item">
+        <div class="label">Overall Turnout</div>
+        <div class="value" id="printTurnout">0%</div>
+      </div>
+      <div class="print-meta-item">
+        <div class="label">Electoral Status</div>
+        <div class="value" id="printStatus">OFFICIALLY CLOSED</div>
+      </div>
+    </div>
+
+    <div id="printPositionsContainer"></div>
+
+    <div class="print-signatures">
+      <div class="signature-block">
+        __________________________________________<br>
+        <strong>Chief Returning Officer</strong><br>
+        DESA Electoral Commission
+      </div>
+      <div class="signature-block">
+        __________________________________________<br>
+        <strong>Commission Chairperson</strong><br>
+        DESA Decides 2026
+      </div>
+    </div>
+  </div>
+
+  <script src="./firebase-config.js"></script>
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
+    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
+    import { api, escapeHtml } from './common.js';
+
+    const firebaseConfig = window.FIREBASE_CONFIG;
+    const auth = firebaseConfig?.apiKey ? getAuth(initializeApp(firebaseConfig)) : null;
+
+    let adminUser = null;
+    let adminStatsData = null;
+    let adminCrudData = null;
+
+    const editing = {
+      voterId: null,
+      electionId: null,
+      candidateId: null
+    };
+
+    // Elements
+    const adminLoginPanel = document.getElementById('adminLoginPanel');
+    const adminDashboard = document.getElementById('adminDashboard');
+    const adminLoginForm = document.getElementById('adminLoginForm');
+    const adminEmail = document.getElementById('adminEmail');
+    const adminPassword = document.getElementById('adminPassword');
+    const adminLoginBtn = document.getElementById('adminLoginBtn');
+    const adminLogoutBtn = document.getElementById('adminLogoutBtn');
+    const adminLoginMessage = document.getElementById('adminLoginMessage');
+    const adminAccountLabel = document.getElementById('adminAccountLabel');
+
+    const statTotalVoters = document.getElementById('statTotalVoters');
+    const statBallotsCast = document.getElementById('statBallotsCast');
+    const statTotalVotesSub = document.getElementById('statTotalVotesSub');
+    const statTurnoutPercent = document.getElementById('statTurnoutPercent');
+    const statVotingStatus = document.getElementById('statVotingStatus');
+    const statDeadlineSub = document.getElementById('statDeadlineSub');
+
+    const resultsPublishedBadge = document.getElementById('resultsPublishedBadge');
+    const togglePublishBtn = document.getElementById('togglePublishBtn');
+    const toggleVotingStateBtn = document.getElementById('toggleVotingStateBtn');
+    const adminDeadlineInput = document.getElementById('adminDeadlineInput');
+    const saveDeadlineBtn = document.getElementById('saveDeadlineBtn');
+    const clearDeadlineBtn = document.getElementById('clearDeadlineBtn');
+    const printReportBtn = document.getElementById('printReportBtn');
+
+    const electionTitleInput = document.getElementById('electionTitleInput');
+    const addElectionBtn = document.getElementById('addElectionBtn');
+    const cancelElectionEditBtn = document.getElementById('cancelElectionEditBtn');
+    const electionListContainer = document.getElementById('electionListContainer');
+
+    const candidateElectionSelect = document.getElementById('candidateElectionSelect');
+    const candidateNameInput = document.getElementById('candidateNameInput');
+    const addCandidateBtn = document.getElementById('addCandidateBtn');
+    const cancelCandidateEditBtn = document.getElementById('cancelCandidateEditBtn');
+    const candidateListContainer = document.getElementById('candidateListContainer');
+
+    const voterIdInput = document.getElementById('voterIdInput');
+    const voterNameInput = document.getElementById('voterNameInput');
+    const addVoterBtn = document.getElementById('addVoterBtn');
+    const cancelVoterEditBtn = document.getElementById('cancelVoterEditBtn');
+    const voterListContainer = document.getElementById('voterListContainer');
+
+    function showMsg(txt) {
+      adminLoginMessage.textContent = txt;
+      adminLoginMessage.style.display = 'block';
+    }
+
+    if (!auth) {
+      showMsg('Firebase configuration missing in frontend/firebase-config.js');
+    } else {
+      onAuthStateChanged(auth, async (user) => {
+        adminUser = user;
+        if (!user) {
+          adminLoginPanel.classList.remove('hidden');
+          adminDashboard.classList.add('hidden');
+          return;
+        }
+
+        showMsg('Verifying administrator access...');
+        try {
+          await loadDashboard();
+          adminLoginPanel.classList.add('hidden');
+          adminDashboard.classList.remove('hidden');
+          adminAccountLabel.textContent = `Signed in: ${user.email}`;
+        } catch (err) {
+          showMsg(err.message);
+          await signOut(auth);
+        }
+      });
+    }
+
+    adminLoginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!auth) return;
+      adminLoginBtn.disabled = true;
+      adminLoginBtn.textContent = 'Signing in...';
+
+      try {
+        await signInWithEmailAndPassword(auth, adminEmail.value.trim(), adminPassword.value);
+      } catch (err) {
+        showMsg(err.code === 'auth/invalid-credential' ? 'Email or password is incorrect.' : err.message);
+      } finally {
+        adminLoginBtn.disabled = false;
+        adminLoginBtn.textContent = 'Sign In to Dashboard';
+      }
+    });
+
+    adminLogoutBtn.addEventListener('click', async () => {
+      if (auth) await signOut(auth);
+      showMsg('Signed out.');
+    });
+
+    async function loadDashboard() {
+      const [crud, stats] = await Promise.all([
+        api('/admin/data', {}, adminUser),
+        api('/admin/stats', {}, adminUser)
+      ]);
+
+      adminCrudData = crud;
+      adminStatsData = stats;
+
+      renderStats(stats);
+      renderCrud(crud);
+      syncEditButtons();
+    }
+
+    function renderStats(stats) {
+      const { settings = {}, totalVoters = 0, totalBallotsCast = 0, totalVotesCast = 0, turnoutPercent = 0 } = stats;
+
+      statTotalVoters.textContent = totalVoters;
+      statBallotsCast.textContent = totalBallotsCast;
+      statTotalVotesSub.textContent = `${totalVotesCast} total votes cast`;
+      statTurnoutPercent.textContent = `${turnoutPercent}%`;
+
+      const isOpen = settings.votingOpen !== false;
+      statVotingStatus.textContent = isOpen ? '🟢 Active' : '🔴 Closed';
+      toggleVotingStateBtn.textContent = isOpen ? 'Pause Voting' : 'Resume Voting';
+      toggleVotingStateBtn.className = isOpen ? 'secondary small danger' : 'secondary small';
+
+      if (settings.votingDeadline) {
+        const d = new Date(settings.votingDeadline);
+        statDeadlineSub.textContent = `Deadline: ${d.toLocaleDateString()} ${d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+        try { adminDeadlineInput.value = d.toISOString().slice(0, 16); } catch {}
+      } else {
+        statDeadlineSub.textContent = 'No deadline set (indefinite)';
+        adminDeadlineInput.value = '';
+      }
+
+      const isPublished = Boolean(settings.resultsPublished);
+      resultsPublishedBadge.textContent = isPublished ? '🟢 Published to Public' : '🔴 Hidden from Public';
+      resultsPublishedBadge.className = isPublished ? 'badge badge-success' : 'badge badge-warning';
+      togglePublishBtn.textContent = isPublished ? 'Unpublish Results' : 'Publish to Public';
+
+      updatePrintView(stats);
+    }
+
+    function updatePrintView(stats) {
+      const { settings = {}, totalVoters = 0, totalBallotsCast = 0, turnoutPercent = 0, positions = [] } = stats;
+
+      document.getElementById('printGeneratedDate').textContent = `Official Certification Document • Generated: ${new Date().toLocaleString()}`;
+      document.getElementById('printTotalVoters').textContent = totalVoters;
+      document.getElementById('printBallotsCast').textContent = totalBallotsCast;
+      document.getElementById('printTurnout').textContent = `${turnoutPercent}%`;
+      document.getElementById('printStatus').textContent = settings.votingOpen === false ? 'CONCLUDED & CERTIFIED' : 'INTERIM AUDIT REPORT';
+
+      const container = document.getElementById('printPositionsContainer');
+      container.innerHTML = positions.map((pos) => `
+        <div class="print-position">
+          <h3>CONTEST: ${escapeHtml(pos.title).toUpperCase()} (Total Votes: ${pos.totalVotes})</h3>
+          <table class="print-table">
+            <thead>
+              <tr>
+                <th style="width:40px">Rank</th>
+                <th>Candidate Name</th>
+                <th style="width:120px">Votes Received</th>
+                <th style="width:100px">Vote Share</th>
+                <th style="width:140px">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${(pos.candidates || []).map((cand, idx) => {
+                const isWinner = pos.winnerIds && pos.winnerIds.includes(cand.id);
+                return `
+                  <tr class="${isWinner ? 'print-winner-row' : ''}">
+                    <td>${idx + 1}</td>
+                    <td><strong>${escapeHtml(cand.name)}</strong></td>
+                    <td>${cand.votes}</td>
+                    <td>${cand.percentage}%</td>
+                    <td>${isWinner ? '🏆 ELECTED / LEADING' : 'Not Elected'}</td>
+                  </tr>
+                `;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>
+      `).join('');
+    }
+
+    function renderCrud(data) {
+      const { voters = [], elections = [], candidates = [] } = data || {};
+
+      voterListContainer.innerHTML = voters.length
+        ? voters.map((v) => `
+          <div class="list-item">
+            <div class="info">
+              <span class="title">${escapeHtml(v.name)}</span>
+              <span class="sub">Voter ID: ${escapeHtml(v.id)}</span>
+            </div>
+            <div class="list-actions">
+              <span class="badge">voter</span>
+              <button class="action-btn edit" data-type="voter" data-id="${escapeHtml(v.id)}">Edit</button>
+              <button class="action-btn delete" data-type="voter" data-id="${escapeHtml(v.id)}">Delete</button>
+            </div>
+          </div>
+        `).join('')
+        : '<div class="empty-msg">No voters registered yet.</div>';
+
+      electionListContainer.innerHTML = elections.length
+        ? elections.map((e) => `
+          <div class="list-item">
+            <div class="info">
+              <span class="title">${escapeHtml(e.title)}</span>
+              <span class="sub">ID: ${escapeHtml(e.id)}</span>
+            </div>
+            <div class="list-actions">
+              <span class="badge">position</span>
+              <button class="action-btn edit" data-type="election" data-id="${escapeHtml(e.id)}">Edit</button>
+              <button class="action-btn delete" data-type="election" data-id="${escapeHtml(e.id)}">Delete</button>
+            </div>
+          </div>
+        `).join('')
+        : '<div class="empty-msg">No positions created yet.</div>';
+
+      candidateElectionSelect.innerHTML = elections.length
+        ? elections.map((e) => `<option value="${escapeHtml(e.id)}">${escapeHtml(e.title)}</option>`).join('')
+        : '<option value="">-- No positions available --</option>';
+
+      const titleMap = Object.fromEntries(elections.map((e) => [e.id, e.title]));
+
+      candidateListContainer.innerHTML = candidates.length
+        ? candidates.map((c) => `
+          <div class="list-item">
+            <div class="info">
+              <span class="title">${escapeHtml(c.name)}</span>
+              <span class="sub">Position: ${escapeHtml(titleMap[c.electionId] || c.electionId)}</span>
+            </div>
+            <div class="list-actions">
+              <span class="badge">candidate</span>
+              <button class="action-btn edit" data-type="candidate" data-id="${escapeHtml(c.id)}">Edit</button>
+              <button class="action-btn delete" data-type="candidate" data-id="${escapeHtml(c.id)}">Delete</button>
+            </div>
+          </div>
+        `).join('')
+        : '<div class="empty-msg">No candidates registered yet.</div>';
+
+      bindActionButtons();
+    }
+
+    function bindActionButtons() {
+      document.querySelectorAll('.action-btn.edit').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const { type, id } = btn.dataset;
+          if (type === 'voter') {
+            const v = adminCrudData?.voters?.find((x) => x.id === id);
+            if (!v) return;
+            editing.voterId = id;
+            voterIdInput.value = v.id;
+            voterNameInput.value = v.name || '';
+            voterIdInput.disabled = true;
+            syncEditButtons();
+            voterNameInput.focus();
+          } else if (type === 'election') {
+            const e = adminCrudData?.elections?.find((x) => x.id === id);
+            if (!e) return;
+            editing.electionId = id;
+            electionTitleInput.value = e.title || '';
+            syncEditButtons();
+            electionTitleInput.focus();
+          } else if (type === 'candidate') {
+            const c = adminCrudData?.candidates?.find((x) => x.id === id);
+            if (!c) return;
+            editing.candidateId = id;
+            candidateElectionSelect.value = c.electionId || '';
+            candidateNameInput.value = c.name || '';
+            syncEditButtons();
+            candidateNameInput.focus();
+          }
+        });
+      });
+
+      document.querySelectorAll('.action-btn.delete').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const { type, id } = btn.dataset;
+          if (!confirm(`Delete this ${type}? Associated votes will be deleted.`)) return;
+
+          try {
+            const ep = type === 'voter' ? `/admin/voters/${encodeURIComponent(id)}` : type === 'election' ? `/admin/elections/${encodeURIComponent(id)}` : `/admin/candidates/${encodeURIComponent(id)}`;
+            await api(ep, { method: 'DELETE' }, adminUser);
+            clearEditing();
+            await loadDashboard();
+          } catch (err) {
+            alert(err.message);
+          }
+        });
+      });
+    }
+
+    function syncEditButtons() {
+      addVoterBtn.textContent = editing.voterId ? '💾 Save Voter' : '➕ Add Voter';
+      cancelVoterEditBtn.classList.toggle('hidden', !editing.voterId);
+      voterIdInput.disabled = Boolean(editing.voterId);
+
+      addElectionBtn.textContent = editing.electionId ? '💾 Save Position' : '➕ Add Position';
+      cancelElectionEditBtn.classList.toggle('hidden', !editing.electionId);
+
+      addCandidateBtn.textContent = editing.candidateId ? '💾 Save Candidate' : '➕ Add Candidate';
+      cancelCandidateEditBtn.classList.toggle('hidden', !editing.candidateId);
+    }
+
+    function clearEditing() {
+      editing.voterId = null;
+      editing.electionId = null;
+      editing.candidateId = null;
+      voterIdInput.value = '';
+      voterNameInput.value = '';
+      electionTitleInput.value = '';
+      candidateNameInput.value = '';
+      syncEditButtons();
+    }
+
+    cancelVoterEditBtn.addEventListener('click', clearEditing);
+    cancelElectionEditBtn.addEventListener('click', clearEditing);
+    cancelCandidateEditBtn.addEventListener('click', clearEditing);
+
+    addVoterBtn.addEventListener('click', async () => {
+      const id = voterIdInput.value.trim();
+      const name = voterNameInput.value.trim();
+      if (!name) return alert('Please enter voter name.');
+
+      try {
+        if (editing.voterId) {
+          await api(`/admin/voters/${encodeURIComponent(editing.voterId)}`, { method: 'PUT', body: { name } }, adminUser);
+        } else {
+          if (!id) return alert('Please enter voter ID.');
+          await api('/admin/voters', { method: 'POST', body: { id, name } }, adminUser);
+        }
+        clearEditing();
+        await loadDashboard();
+      } catch (err) { alert(err.message); }
+    });
+
+    addElectionBtn.addEventListener('click', async () => {
+      const title = electionTitleInput.value.trim();
+      if (!title) return alert('Please enter position title.');
+
+      try {
+        if (editing.electionId) {
+          await api(`/admin/elections/${encodeURIComponent(editing.electionId)}`, { method: 'PUT', body: { title } }, adminUser);
+        } else {
+          await api('/admin/elections', { method: 'POST', body: { title } }, adminUser);
+        }
+        clearEditing();
+        await loadDashboard();
+      } catch (err) { alert(err.message); }
+    });
+
+    addCandidateBtn.addEventListener('click', async () => {
+      const electionId = candidateElectionSelect.value;
+      const name = candidateNameInput.value.trim();
+      if (!electionId || !name) return alert('Please select a position and enter candidate name.');
+
+      try {
+        if (editing.candidateId) {
+          await api(`/admin/candidates/${encodeURIComponent(editing.candidateId)}`, { method: 'PUT', body: { electionId, name } }, adminUser);
+        } else {
+          await api('/admin/candidates', { method: 'POST', body: { electionId, name } }, adminUser);
+        }
+        clearEditing();
+        await loadDashboard();
+      } catch (err) { alert(err.message); }
+    });
+
+    togglePublishBtn.addEventListener('click', async () => {
+      const cur = Boolean(adminStatsData?.settings?.resultsPublished);
+      try {
+        await api('/admin/settings', { method: 'POST', body: { resultsPublished: !cur } }, adminUser);
+        await loadDashboard();
+      } catch (err) { alert(err.message); }
+    });
+
+    toggleVotingStateBtn.addEventListener('click', async () => {
+      const isOpen = adminStatsData?.settings?.votingOpen !== false;
+      if (!confirm(isOpen ? 'Are you sure you want to pause voting?' : 'Re-open voting?')) return;
+      try {
+        await api('/admin/settings', { method: 'POST', body: { votingOpen: !isOpen } }, adminUser);
+        await loadDashboard();
+      } catch (err) { alert(err.message); }
+    });
+
+    saveDeadlineBtn.addEventListener('click', async () => {
+      const val = adminDeadlineInput.value;
+      if (!val) return alert('Select a valid date and time.');
+      try {
+        await api('/admin/settings', { method: 'POST', body: { votingDeadline: new Date(val).toISOString() } }, adminUser);
+        alert('Voting deadline updated.');
+        await loadDashboard();
+      } catch (err) { alert(err.message); }
+    });
+
+    clearDeadlineBtn.addEventListener('click', async () => {
+      if (!confirm('Clear the voting deadline? (Voting will run indefinitely)')) return;
+      try {
+        await api('/admin/settings', { method: 'POST', body: { votingDeadline: null } }, adminUser);
+        await loadDashboard();
+      } catch (err) { alert(err.message); }
+    });
+
+    printReportBtn.addEventListener('click', () => {
+      if (adminStatsData) updatePrintView(adminStatsData);
+      window.print();
+    });
+  </script>
+</body>
+
+</html>

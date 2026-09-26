@@ -5,337 +5,130 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DESA Decides 2026 - Official Election Results</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-      background: #f0f4f9;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 24px 16px;
-      color: #1a2b3c;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 900px;
-      background: white;
-      border-radius: 28px;
-      box-shadow: 0 20px 45px -10px rgba(11, 43, 79, 0.12);
-      overflow: hidden;
-    }
-
-    .header {
-      background: #0b2b4f;
-      color: white;
-      padding: 24px 32px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-
-    .header-title {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .header-title h1 {
-      font-size: 1.6rem;
-      font-weight: 700;
-    }
-
-    .header-title span {
-      background: #2e6b9e;
-      font-size: .8rem;
-      padding: 4px 10px;
-      border-radius: 40px;
-      font-weight: 500;
-    }
-
-    .content {
-      padding: 32px;
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px;
-      margin-bottom: 28px;
-    }
-
-    .stat-card {
-      background: #f9fcff;
-      border: 1.5px solid #dce8f5;
-      border-radius: 18px;
-      padding: 18px 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .stat-label {
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: #5c7895;
-      text-transform: uppercase;
-    }
-
-    .stat-value {
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: #0b2b4f;
-    }
-
-    .stat-sub {
-      font-size: 0.85rem;
-      color: #728ea9;
-    }
-
-    .results-card {
-      background: #fff;
-      border: 1.5px solid #e0ecf7;
-      border-radius: 20px;
-      padding: 22px;
-      margin-bottom: 22px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
-    }
-
-    .results-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid #edf2f7;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .results-header h2 {
-      font-size: 1.25rem;
-      color: #0b2b4f;
-    }
-
-    .candidate-row {
-      margin-bottom: 18px;
-    }
-
-    .candidate-row:last-child {
-      margin-bottom: 0;
-    }
-
-    .candidate-info {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 6px;
-      font-size: 0.95rem;
-    }
-
-    .candidate-name {
-      font-weight: 600;
-      color: #172b4d;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .candidate-votes {
-      color: #5c7895;
-    }
-
-    .progress-bar-bg {
-      background: #eef3f9;
-      height: 14px;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-
-    .progress-bar-fill {
-      background: linear-gradient(90deg, #1b4975, #3182ce);
-      height: 100%;
-      border-radius: 8px;
-      transition: width 0.6s ease;
-    }
-
-    .progress-bar-fill.leader {
-      background: linear-gradient(90deg, #107c41, #22c55e);
-    }
-
-    .badge {
-      padding: 3px 10px;
-      border-radius: 40px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      background: #e0ecfe;
-      color: #0b2b4f;
-    }
-
-    .badge-winner {
-      background: #fef08a;
-      color: #854d0e;
-      border: 1px solid #facc15;
-    }
-
-    .refresh-btn {
-      background: #fff;
-      color: #0b2b4f;
-      border: 0;
-      padding: 8px 18px;
-      border-radius: 40px;
-      font-weight: 600;
-      font-size: 0.88rem;
-      cursor: pointer;
-    }
-
-    .refresh-btn:hover {
-      background: #e8f0fe;
-    }
-
-    .withheld-box {
-      text-align: center;
-      padding: 48px 24px;
-      background: #f9fcff;
-      border-radius: 20px;
-      border: 2px dashed #cbd5e1;
-    }
-
-    .footer-note {
-      text-align: center;
-      margin-top: 24px;
-      font-size: 0.85rem;
-      color: #728ea9;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
-  <div class="container">
+  <div class="app-container">
     <div class="header">
-      <div class="header-title">
-        <h1>🗳️ DESA Decides 2026</h1>
-        <span>Live Results</span>
+      <div class="header-brand">
+        <img class="brand-logo" src="logo.jpg" alt="DESA logo" onerror="this.style.display='none';" />
+        <h1><a href="index.html">🗳️ DESA Decides 2026</a> <span>Official</span></h1>
       </div>
-      <div>
-        <button class="refresh-btn" id="refreshBtn">🔄 Refresh Tallies</button>
+      <div class="nav-tabs">
+        <a href="index.html">🔐 Login</a>
+        <a href="ballot.html">📋 Ballot</a>
+        <a href="results.html" class="active">📊 Results</a>
+        <a href="admin.html">⚙️ Admin</a>
       </div>
     </div>
 
     <div class="content">
-      <div id="statsContainer" class="stats-grid" style="display:none"></div>
-      <div id="resultsContainer">
-        <p style="text-align:center;color:#6b8aaa">Connecting to live electoral database...</p>
-      </div>
-      <div class="footer-note">
-        DESA Decides 2026 • Official Electoral System • Realtime Election Transparency
+      <div class="card">
+        <div class="flex-between" style="margin-bottom:18px">
+          <h2>📊 Official Election Results</h2>
+          <button class="secondary small" id="refreshResultsBtn">🔄 Refresh Tallies</button>
+        </div>
+        <div id="resultsStatusBanner"></div>
+        <div id="publicStatsContainer" class="stats-grid hidden"></div>
+        <div id="publicResultsList">
+          <div class="empty-msg">Connecting to live electoral database...</div>
+        </div>
       </div>
     </div>
   </div>
 
-  <script>
-    const API_BASE_URL = (location.hostname === 'localhost' ? 'http://localhost:3000' : '').replace(/\/$/, '');
-    const resultsContainer = document.getElementById('resultsContainer');
-    const statsContainer = document.getElementById('statsContainer');
-    const refreshBtn = document.getElementById('refreshBtn');
+  <script type="module">
+    import { api, escapeHtml } from './common.js';
 
-    function escapeHtml(text) {
-      return String(text ?? '').replace(/[&<>"']/g, (m) => ({
-        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-      }[m]));
-    }
+    const resultsStatusBanner = document.getElementById('resultsStatusBanner');
+    const publicStatsContainer = document.getElementById('publicStatsContainer');
+    const publicResultsList = document.getElementById('publicResultsList');
+    const refreshResultsBtn = document.getElementById('refreshResultsBtn');
 
     async function loadResults() {
       try {
-        const res = await fetch(`${API_BASE_URL}/api/results`);
-        const data = await res.json();
-
-        if (!data.published) {
-          statsContainer.style.display = 'none';
-          resultsContainer.innerHTML = `
-            <div class="withheld-box">
-              <div style="font-size:3rem;margin-bottom:12px">🔒</div>
-              <h2 style="color:#0b2b4f;margin-bottom:8px">Official Results Withheld</h2>
-              <p style="color:#5e7c9a;max-width:480px;margin:0 auto">
-                ${escapeHtml(data.message || 'The Election Commission has not yet released the tallies. Results will be published once voting ends.')}
-              </p>
-            </div>
-          `;
-          return;
-        }
-
-        // Render Stats
-        statsContainer.style.display = 'grid';
-        statsContainer.innerHTML = `
-          <div class="stat-card">
-            <span class="stat-label">👥 Total Voters</span>
-            <span class="stat-value">${data.totalVoters || 0}</span>
-            <span class="stat-sub">Registered</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-label">🗳️ Ballots Cast</span>
-            <span class="stat-value">${data.totalBallotsCast || 0}</span>
-            <span class="stat-sub">${data.totalVotesCast || 0} votes recorded</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-label">📈 Voter Turnout</span>
-            <span class="stat-value">${data.turnoutPercent || 0}%</span>
-            <span class="stat-sub">${data.votingOpen ? 'Voting in progress' : 'Voting concluded'}</span>
-          </div>
-        `;
-
-        // Render Position Results
-        const positions = data.positions || [];
-        if (!positions.length) {
-          resultsContainer.innerHTML = '<div class="withheld-box"><h3>No contests available.</h3></div>';
-          return;
-        }
-
-        resultsContainer.innerHTML = positions.map(pos => {
-          const candidates = pos.candidates || [];
-          return `
-            <div class="results-card">
-              <div class="results-header">
-                <h2>🏛️ ${escapeHtml(pos.title)}</h2>
-                <span class="badge">${pos.totalVotes} votes cast</span>
-              </div>
-              ${candidates.length ? candidates.map((cand, idx) => {
-                const isWinner = pos.winnerIds && pos.winnerIds.includes(cand.id);
-                return `
-                  <div class="candidate-row">
-                    <div class="candidate-info">
-                      <span class="candidate-name">
-                        ${idx === 0 && isWinner ? '👑' : '•'} ${escapeHtml(cand.name)}
-                        ${isWinner ? '<span class="badge badge-winner">Leading / Winner</span>' : ''}
-                      </span>
-                      <span class="candidate-votes">
-                        <strong>${cand.votes}</strong> votes (${cand.percentage}%)
-                      </span>
-                    </div>
-                    <div class="progress-bar-bg">
-                      <div class="progress-bar-fill ${isWinner ? 'leader' : ''}" style="width:${Math.max(cand.percentage, 1)}%"></div>
-                    </div>
-                  </div>
-                `;
-              }).join('') : '<p style="color:#728ea9;font-style:italic">No candidates listed.</p>'}
-            </div>
-          `;
-        }).join('');
+        const data = await api('/results');
+        renderResults(data);
       } catch (err) {
-        resultsContainer.innerHTML = `<div class="withheld-box"><p style="color:#c93b3b">${escapeHtml(err.message)}</p></div>`;
+        publicResultsList.innerHTML = `<div class="empty-msg" style="color:#c93b3b">${escapeHtml(err.message)}</div>`;
       }
     }
 
-    refreshBtn.addEventListener('click', loadResults);
+    function renderResults(data) {
+      if (!data || !data.published) {
+        publicStatsContainer.classList.add('hidden');
+        resultsStatusBanner.innerHTML = `
+          <div class="card" style="text-align:center;padding:42px;border:2px dashed #cbd5e1">
+            <div style="font-size:3rem;margin-bottom:12px">🔒</div>
+            <h3 style="color:#0b2b4f;margin-bottom:8px">Official Results Are Withheld</h3>
+            <p style="color:#5e7c9a;max-width:500px;margin:0 auto">
+              ${escapeHtml(data?.message || 'The Election Commission has not released public tallies yet. Please check back after voting concludes.')}
+            </p>
+          </div>
+        `;
+        publicResultsList.innerHTML = '';
+        return;
+      }
+
+      resultsStatusBanner.innerHTML = '';
+      publicStatsContainer.classList.remove('hidden');
+
+      publicStatsContainer.innerHTML = `
+        <div class="stat-card">
+          <span class="stat-label">👥 Total Voters</span>
+          <span class="stat-value">${data.totalVoters || 0}</span>
+          <span class="stat-sub">Registered</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">🗳️ Ballots Cast</span>
+          <span class="stat-value">${data.totalBallotsCast || 0}</span>
+          <span class="stat-sub">${data.totalVotesCast || 0} votes recorded</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">📈 Voter Turnout</span>
+          <span class="stat-value">${data.turnoutPercent || 0}%</span>
+          <span class="stat-sub">${data.votingOpen ? 'Voting in progress' : 'Voting concluded'}</span>
+        </div>
+      `;
+
+      const positions = data.positions || [];
+      if (!positions.length) {
+        publicResultsList.innerHTML = '<div class="empty-msg">No elective positions to display.</div>';
+        return;
+      }
+
+      publicResultsList.innerHTML = positions.map((pos) => {
+        const candidates = pos.candidates || [];
+        return `
+          <div class="results-card">
+            <div class="results-header">
+              <h3>🏛️ ${escapeHtml(pos.title)}</h3>
+              <span class="badge">${pos.totalVotes} total votes cast</span>
+            </div>
+            ${candidates.length ? candidates.map((cand, idx) => {
+              const isWinner = pos.winnerIds && pos.winnerIds.includes(cand.id);
+              return `
+                <div class="candidate-result-row">
+                  <div class="result-info">
+                    <span class="result-name">
+                      ${idx === 0 && isWinner ? '👑' : '•'} ${escapeHtml(cand.name)}
+                      ${isWinner ? '<span class="badge badge-winner">Leading / Winner</span>' : ''}
+                    </span>
+                    <span class="result-votes"><strong>${cand.votes}</strong> votes (${cand.percentage}%)</span>
+                  </div>
+                  <div class="progress-bar-bg">
+                    <div class="progress-bar-fill ${isWinner ? 'leader' : ''}" style="width:${Math.max(cand.percentage, 1)}%"></div>
+                  </div>
+                </div>
+              `;
+            }).join('') : '<div class="empty-msg">No candidates for this position.</div>'}
+          </div>
+        `;
+      }).join('');
+    }
+
+    refreshResultsBtn.addEventListener('click', loadResults);
     loadResults();
     // Auto-refresh every 30 seconds
     setInterval(loadResults, 30000);

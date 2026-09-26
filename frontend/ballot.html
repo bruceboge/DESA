@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DESA Decides 2026 - Official Ballot</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div class="app-container">
+    <div class="header">
+      <div class="header-brand">
+        <img class="brand-logo" src="logo.jpg" alt="DESA logo" onerror="this.style.display='none';" />
+        <h1><a href="index.html">🗳️ DESA Decides 2026</a> <span>Official</span></h1>
+      </div>
+      <div class="nav-tabs">
+        <a href="index.html">🔐 Login</a>
+        <a href="ballot.html" class="active">📋 Ballot</a>
+        <a href="results.html">📊 Results</a>
+        <a href="admin.html">⚙️ Admin</a>
+      </div>
+      <div id="userBadge" class="user-tag"></div>
+    </div>
+
+    <div class="content">
+      <div class="card">
+        <div class="flex-between">
+          <h2>📋 Official Voter Ballot</h2>
+          <button class="secondary small" id="logoutBtn">Logout</button>
+        </div>
+        <div id="ballotStatus" class="status-bar">Connecting to ballot...</div>
+        <div id="ballotDeadlineNotice" style="margin-bottom:16px"></div>
+        <div id="ballotContent">
+          <div class="empty-msg">Loading elective positions and candidates...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { api, getVoterSession, clearVoterSession, escapeHtml } from './common.js';
+
+    const voter = getVoterSession();
+    if (!voter?.voterId) {
+      alert('Please log in with your Voter ID first.');
+      window.location.href = 'index.html';
+    }
+
+    const userBadge = document.getElementById('userBadge');
+    const ballotStatus = document.getElementById('ballotStatus');
+    const ballotDeadlineNotice = document.getElementById('ballotDeadlineNotice');
+    const ballotContent = document.getElementById('ballotContent');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    userBadge.textContent = `👤 ${voter.name} (${voter.voterId})`;
+    ballotStatus.textContent = `Logged in: ${voter.name} (Voter ID: ${voter.voterId})`;
+
+    logoutBtn.addEventListener('click', () => {
+      clearVoterSession();
+      window.location.href = 'index.html';
+    });
+
+    const userVotes = new Map(); // electionId -> candidateName
+
+    async function loadBallot() {
+      try {
+        const [ballotResponse, voterVotesResponse] = await Promise.all([
+          api('/ballot'),
+          api(`/voters/${encodeURIComponent(voter.voterId)}/votes`).catch(() => ({ votes: [] }))
+        ]);
+
+        userVotes.clear();
+        (voterVotesResponse.votes || []).forEach(v => {
+          userVotes.set(v.electionId, v.candidateName);
+        });
+
+        renderBallot(ballotResponse);
+      } catch (err) {
+        ballotContent.innerHTML = `<div class="empty-msg" style="color:#c93b3b">${escapeHtml(err.message)}</div>`;
+      }
+    }
+
+    function renderBallot(data) {
+      const { elections = [], candidates = [], votingAllowed = true, votingReason, votingDeadline } = data || {};
+
+      let deadlineHtml = '';
+      if (!votingAllowed) {
+        deadlineHtml = `<div class="status-bar" style="background:#fee2e2;color:#991b1b;width:100%">⚠️ Voting is closed: ${escapeHtml(votingReason || 'Deadline reached.')}</div>`;
+      } else if (votingDeadline) {
+        const dateStr = new Date(votingDeadline).toLocaleString();
+        deadlineHtml = `<div class="status-bar" style="background:#def7ec;color:#03543f;width:100%">⏱️ Voting is OPEN until: <strong>${escapeHtml(dateStr)}</strong></div>`;
+      }
+      ballotDeadlineNotice.innerHTML = deadlineHtml;
+
+      if (!elections.length) {
+        ballotContent.innerHTML = '<div class="empty-msg">No elective positions configured yet.</div>';
+        return;
+      }
+
+      ballotContent.innerHTML = elections.map((election) => {
+        const options = candidates.filter((c) => c.electionId === election.id);
+        const alreadyVotedCandidate = userVotes.get(election.id);
+
+        return `
+          <div style="margin-top:24px;border-top:1px solid #eef3f8;padding-top:16px">
+            <div class="flex-between">
+              <h3 style="color:#0b2b4f;font-size:1.2rem">🏛️ ${escapeHtml(election.title)}</h3>
+              ${alreadyVotedCandidate ? '<span class="badge badge-success">✅ Vote Recorded</span>' : ''}
+            </div>
+
+            ${alreadyVotedCandidate ? `
+              <div class="ballot-card voted" style="margin-top:12px;max-width:380px">
+                <div style="font-size:.9rem;color:#03543f;font-weight:600">Your Recorded Vote:</div>
+                <h3 style="color:#03543f">${escapeHtml(alreadyVotedCandidate)}</h3>
+                <p style="color:#2f855a">Submitted and verified on the ballot.</p>
+              </div>
+            ` : (options.length ? `
+              <div class="ballot-grid">
+                ${options.map((cand) => `
+                  <div class="ballot-card">
+                    <h3>${escapeHtml(cand.name)}</h3>
+                    <p>Candidate for ${escapeHtml(election.title)}</p>
+                    <button
+                      class="primary small vote-btn"
+                      ${!votingAllowed ? 'disabled' : ''}
+                      data-election="${escapeHtml(election.id)}"
+                      data-candidate="${escapeHtml(cand.id)}"
+                      data-title="${escapeHtml(election.title)}"
+                      data-name="${escapeHtml(cand.name)}"
+                    >${votingAllowed ? 'Vote' : 'Voting Closed'}</button>
+                  </div>
+                `).join('')}
+              </div>
+            ` : '<div class="empty-msg">No candidates registered for this position yet.</div>')}
+          </div>
+        `;
+      }).join('');
+
+      ballotContent.querySelectorAll('.vote-btn').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const { election, candidate, title, name } = btn.dataset;
+          if (!confirm(`Confirm vote for ${name} for ${title}? This cannot be undone.`)) return;
+
+          btn.disabled = true;
+          btn.textContent = 'Submitting...';
+
+          try {
+            await api('/votes', {
+              method: 'POST',
+              body: {
+                voterId: voter.voterId,
+                voterName: voter.name,
+                electionId: election,
+                candidateId: candidate,
+                candidateName: name
+              }
+            });
+            userVotes.set(election, name);
+            loadBallot();
+          } catch (err) {
+            btn.disabled = false;
+            btn.textContent = 'Vote';
+            alert(err.message);
+          }
+        });
+      });
+    }
+
+    loadBallot();
+  </script>
+</body>
+
+</html>
