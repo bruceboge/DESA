@@ -6,9 +6,6 @@
 # Dependencies
 node_modules/
 
-# Firebase config with real credentials
-frontend/firebase-config.js
-
 # OS files
 .DS_Store
 Thumbs.db
