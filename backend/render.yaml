@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: desa-backend
+    env: node
+    plan: free
+    region: oregon
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Render supplies PORT automatically — only set if your plan requires it
+      # Secrets: set these in the Render Dashboard, NOT here.
+      # They are listed as sync: false so Render knows they exist but
+      # their values are never stored in this file.
+      - key: FIREBASE_PROJECT_ID
+        sync: false
+      - key: FIREBASE_CLIENT_EMAIL
+        sync: false
+      - key: FIREBASE_PRIVATE_KEY
+        sync: false
+      - key: FIREBASE_ADMIN_EMAILS
+        sync: false
+      - key: FRONTEND_ORIGIN
+        sync: false

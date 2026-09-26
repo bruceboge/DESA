@@ -1,0 +1,6 @@
+.env
+.env.local
+node_modules/
+
+# Contains project-specific Firebase credentials — use firebase-config.example.js as template
+firebase-config.js

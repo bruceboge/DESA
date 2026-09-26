@@ -1,0 +1,18 @@
+# Environment variables (contain secrets)
+.env
+.env.local
+.env.*.local
+
+# Dependencies
+node_modules/
+
+# Firebase config with real credentials
+frontend/firebase-config.js
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

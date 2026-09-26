@@ -1,0 +1,16 @@
+{
+  "name": "civicvote-backend",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^8.7.0",
+    "firebase-admin": "^13.0.2",
+    "helmet": "^8.3.0"
+  }
+}
