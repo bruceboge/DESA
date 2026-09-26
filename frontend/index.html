@@ -1,261 +1,636 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DESA Decides 2026</title>
   <style>
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:#f4f7fc;min-height:100vh;display:flex;justify-content:center;align-items:center;padding:16px}
-    .app-container{width:100%;max-width:1200px;background:white;border-radius:32px;box-shadow:0 25px 50px -12px #0004;overflow:hidden;display:flex;flex-direction:column;min-height:700px}
-    .header{background:#0b2b4f;color:white;padding:20px 28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
-    .header-brand{display:flex;align-items:center;gap:12px;min-width:0;flex:1}
-    .header h1{font-size:1.6rem;font-weight:600;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-    .header h1 span{background:#2e6b9e;font-size:.8rem;padding:4px 10px;border-radius:40px;font-weight:400}
-    .brand-logo{width:54px;height:54px;object-fit:cover;border-radius:14px;background:#fff;box-shadow:0 8px 20px rgba(0,0,0,.15);padding:3px}
-    .nav-tabs{display:flex;gap:8px;background:#1e3e62;padding:4px;border-radius:60px}
-    .nav-tabs button{background:transparent;border:0;color:#b8d1e8;padding:10px 22px;border-radius:40px;font-weight:500;font-size:.95rem;cursor:pointer}
-    .nav-tabs button.active{background:white;color:#0b2b4f;font-weight:600}
-    .content{flex:1;padding:28px;background:white;overflow-y:auto}.page{display:none}.page.active-page{display:block}
-    .card{background:#f9fcff;border:1px solid #d9e6f2;border-radius:24px;padding:24px;margin-bottom:24px;box-shadow:0 4px 10px #00000005}
-    .card h2{font-size:1.4rem;color:#0b2b4f;margin-bottom:18px;display:flex;align-items:center;gap:8px}
-    .form-row{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:18px}.form-group{flex:1 1 200px;display:flex;flex-direction:column;gap:6px}
-    .form-group label{font-size:.85rem;font-weight:600;color:#2e4a6b;text-transform:uppercase}
-    .form-group input,.form-group select{padding:12px 16px;border:1px solid #cbdae7;border-radius:16px;font-size:1rem;background:white}
-    button.primary{background:#0b2b4f;color:white;border:0;padding:14px 28px;border-radius:40px;font-weight:600;font-size:1rem;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
-    button.secondary{background:transparent;border:1.5px solid #0b2b4f;color:#0b2b4f;padding:12px 24px;border-radius:40px;font-weight:600;cursor:pointer}
-    button.small{padding:8px 18px;font-size:.9rem}
-    .voter-list,.candidate-list,.election-list{display:flex;flex-direction:column;gap:10px;max-height:260px;overflow-y:auto;padding-right:6px;margin-top:10px}
-    .list-item{background:white;border-radius:16px;padding:14px 18px;border:1px solid #e2edf7;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
-    .list-item .info{display:flex;flex-direction:column}.list-item .title{font-weight:600;color:#0b2b4f}.list-item .sub{font-size:.85rem;color:#5e7c9a}
-    .list-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-    .badge{background:#e0ecfe;color:#0b2b4f;padding:4px 12px;border-radius:40px;font-size:.8rem;font-weight:600}
-    .action-btn{border-radius:10px;padding:7px 12px;font-size:.8rem;font-weight:600;border:1px solid transparent;cursor:pointer}
-    .action-btn.edit{background:#edf4ff;color:#0b2b4f;border-color:#cfe0ff}
-    .action-btn.delete{background:#fff0f0;color:#c94a4a;border-color:#ffdada}
-    .ballot-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:16px}
-    .ballot-card{background:white;border:1.5px solid #d0e1f0;border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px}
-    .ballot-card h3{font-size:1.1rem;color:#0b2b4f}.ballot-card p{color:#4b6a89;font-size:.9rem}
-    .empty-msg{color:#8ba1b8;font-style:italic;padding:20px 0;text-align:center;background:#f9fcff;border-radius:16px}
-    .status-bar{font-size:.85rem;color:#4b6a89;padding:10px 16px;background:#e9f2fa;border-radius:40px;display:inline-block;margin-bottom:16px}
-    .flex-between{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
-    .login-box{max-width:400px;margin:40px auto;text-align:center}.login-box input{width:100%;padding:14px 18px;border-radius:20px;border:1px solid #cbdae7;margin:12px 0;font-size:1rem}
-    .hidden{display:none!important}.user-tag{background:#2e6b9e;padding:6px 14px;border-radius:40px;font-size:.9rem;display:flex;align-items:center;gap:8px}
-    @media(max-width:600px){.content{padding:16px}.header{padding:18px}.nav-tabs{width:100%;justify-content:space-around}.nav-tabs button{padding:9px 12px}.app-container{min-height:90vh;border-radius:20px}}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      background: #f4f7fc;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px
+    }
+
+    .app-container {
+      width: 100%;
+      max-width: 1200px;
+      background: white;
+      border-radius: 32px;
+      box-shadow: 0 25px 50px -12px #0004;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 700px
+    }
+
+    .header {
+      background: #0b2b4f;
+      color: white;
+      padding: 20px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+      flex: 1
+    }
+
+    .header h1 {
+      font-size: 1.6rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap
+    }
+
+    .header h1 span {
+      background: #2e6b9e;
+      font-size: .8rem;
+      padding: 4px 10px;
+      border-radius: 40px;
+      font-weight: 400
+    }
+
+    .brand-logo {
+      width: 54px;
+      height: 54px;
+      object-fit: cover;
+      border-radius: 14px;
+      background: #fff;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, .15);
+      padding: 3px
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 8px;
+      background: #1e3e62;
+      padding: 4px;
+      border-radius: 60px
+    }
+
+    .nav-tabs button {
+      background: transparent;
+      border: 0;
+      color: #b8d1e8;
+      padding: 10px 22px;
+      border-radius: 40px;
+      font-weight: 500;
+      font-size: .95rem;
+      cursor: pointer
+    }
+
+    .nav-tabs button.active {
+      background: white;
+      color: #0b2b4f;
+      font-weight: 600
+    }
+
+    .content {
+      flex: 1;
+      padding: 28px;
+      background: white;
+      overflow-y: auto
+    }
+
+    .page {
+      display: none
+    }
+
+    .page.active-page {
+      display: block
+    }
+
+    .card {
+      background: #f9fcff;
+      border: 1px solid #d9e6f2;
+      border-radius: 24px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 10px #00000005
+    }
+
+    .card h2 {
+      font-size: 1.4rem;
+      color: #0b2b4f;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 18px
+    }
+
+    .form-group {
+      flex: 1 1 200px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px
+    }
+
+    .form-group label {
+      font-size: .85rem;
+      font-weight: 600;
+      color: #2e4a6b;
+      text-transform: uppercase
+    }
+
+    .form-group input,
+    .form-group select {
+      padding: 12px 16px;
+      border: 1px solid #cbdae7;
+      border-radius: 16px;
+      font-size: 1rem;
+      background: white
+    }
+
+    button.primary {
+      background: #0b2b4f;
+      color: white;
+      border: 0;
+      padding: 14px 28px;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    button.secondary {
+      background: transparent;
+      border: 1.5px solid #0b2b4f;
+      color: #0b2b4f;
+      padding: 12px 24px;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer
+    }
+
+    button.small {
+      padding: 8px 18px;
+      font-size: .9rem
+    }
+
+    .voter-list,
+    .candidate-list,
+    .election-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 260px;
+      overflow-y: auto;
+      padding-right: 6px;
+      margin-top: 10px
+    }
+
+    .list-item {
+      background: white;
+      border-radius: 16px;
+      padding: 14px 18px;
+      border: 1px solid #e2edf7;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px
+    }
+
+    .list-item .info {
+      display: flex;
+      flex-direction: column
+    }
+
+    .list-item .title {
+      font-weight: 600;
+      color: #0b2b4f
+    }
+
+    .list-item .sub {
+      font-size: .85rem;
+      color: #5e7c9a
+    }
+
+    .list-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap
+    }
+
+    .badge {
+      background: #e0ecfe;
+      color: #0b2b4f;
+      padding: 4px 12px;
+      border-radius: 40px;
+      font-size: .8rem;
+      font-weight: 600
+    }
+
+    .action-btn {
+      border-radius: 10px;
+      padding: 7px 12px;
+      font-size: .8rem;
+      font-weight: 600;
+      border: 1px solid transparent;
+      cursor: pointer
+    }
+
+    .action-btn.edit {
+      background: #edf4ff;
+      color: #0b2b4f;
+      border-color: #cfe0ff
+    }
+
+    .action-btn.delete {
+      background: #fff0f0;
+      color: #c94a4a;
+      border-color: #ffdada
+    }
+
+    .ballot-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+      margin-top: 16px
+    }
+
+    .ballot-card {
+      background: white;
+      border: 1.5px solid #d0e1f0;
+      border-radius: 20px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px
+    }
+
+    .ballot-card h3 {
+      font-size: 1.1rem;
+      color: #0b2b4f
+    }
+
+    .ballot-card p {
+      color: #4b6a89;
+      font-size: .9rem
+    }
+
+    .empty-msg {
+      color: #8ba1b8;
+      font-style: italic;
+      padding: 20px 0;
+      text-align: center;
+      background: #f9fcff;
+      border-radius: 16px
+    }
+
+    .status-bar {
+      font-size: .85rem;
+      color: #4b6a89;
+      padding: 10px 16px;
+      background: #e9f2fa;
+      border-radius: 40px;
+      display: inline-block;
+      margin-bottom: 16px
+    }
+
+    .flex-between {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px
+    }
+
+    .login-box {
+      max-width: 400px;
+      margin: 40px auto;
+      text-align: center
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: 20px;
+      border: 1px solid #cbdae7;
+      margin: 12px 0;
+      font-size: 1rem
+    }
+
+    .hidden {
+      display: none !important
+    }
+
+    .user-tag {
+      background: #2e6b9e;
+      padding: 6px 14px;
+      border-radius: 40px;
+      font-size: .9rem;
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    @media(max-width:600px) {
+      .content {
+        padding: 16px
+      }
+
+      .header {
+        padding: 18px
+      }
+
+      .nav-tabs {
+        width: 100%;
+        justify-content: space-around
+      }
+
+      .nav-tabs button {
+        padding: 9px 12px
+      }
+
+      .app-container {
+        min-height: 90vh;
+        border-radius: 20px
+      }
+    }
   </style>
 </head>
+
 <body>
-<div class="app-container">
-  <div class="header">
-    <div class="header-brand">
-      <img class="brand-logo" src="./logo.jpg" alt="DESA logo" onerror="this.style.display='none';" />
-      <h1>🗳️ DESA Decides 2026 <span>Firestore realtime</span></h1>
-    </div>
-    <div class="nav-tabs" id="navTabs">
-      <button data-page="login" class="active">🔐 Login</button>
-      <button data-page="ballot">📋 Ballot</button>
-      <button data-page="admin">⚙️ Admin</button>
-    </div>
-    <div id="userBadge" class="user-tag hidden"></div>
-  </div>
-  <div class="content">
-    <div id="page-login" class="page active-page"><div class="card login-box">
-      <h2>🔑 Voter Login</h2><p style="color:#4b6a89;margin-bottom:20px">Enter your voter ID to access the ballot.</p>
-      <div id="loginMessage" class="status-bar" style="display:none"></div>
-      <input type="text" id="loginVoterId" placeholder="Voter ID (e.g., voter1)" autocomplete="off">
-      <button class="primary" id="loginBtn" style="width:100%;justify-content:center">Login</button>
-      <p style="margin-top:20px;font-size:.9rem;color:#6b8aaa">Demo IDs after Firebase setup: voter1, voter2, voter3</p>
-    </div></div>
-    <div id="page-ballot" class="page"><div class="card">
-      <div class="flex-between"><h2>📋 Cast your vote</h2><button class="secondary small" id="logoutBtn">Logout</button></div>
-      <div id="ballotStatus" class="status-bar"></div><div id="ballotContent"><div class="empty-msg">Login to see elections.</div></div>
-    </div></div>
-    <div id="page-admin" class="page">
-      <div class="card login-box" id="adminLoginPanel">
-        <h2>Administrator sign in</h2>
-        <p style="color:#4b6a89;margin-bottom:20px">Use your approved administrator account.</p>
-        <div id="adminLoginMessage" class="status-bar" role="status" style="display:none"></div>
-        <form id="adminLoginForm">
-          <input type="email" id="adminEmail" placeholder="Administrator email" autocomplete="username" required>
-          <input type="password" id="adminPassword" placeholder="Password" autocomplete="current-password" required>
-          <button class="primary" id="adminLoginBtn" type="submit" style="width:100%;justify-content:center">Sign in</button>
-        </form>
-        <button class="secondary small hidden" id="adminLogoutBtn" type="button" style="margin-top:12px">Sign out</button>
+  <div class="app-container">
+    <div class="header">
+      <div class="header-brand">
+        <img class="brand-logo" src="logo.jpg" alt="DESA logo" onerror="this.style.display='none';" />
+        <h1>🗳️ DESA Decides 2026 <span>Realtime</span></h1>
       </div>
-      <div id="adminDashboard" class="hidden">
-      <div class="flex-between" style="margin-bottom:16px"><div id="adminAccountLabel" class="status-bar"></div><button class="secondary small" id="dashboardLogoutBtn" type="button">Sign out</button></div>
-      <div class="card"><h2>👥 Voters</h2><div class="form-row">
-        <div class="form-group"><label>Voter ID</label><input id="voterIdInput" placeholder="e.g., voter3"></div>
-        <div class="form-group"><label>Full name</label><input id="voterNameInput" placeholder="Alice Johnson"></div>
-        <div class="form-group" style="justify-content:flex-end; align-items:center; gap:8px">
-          <button class="secondary small hidden" id="cancelVoterEditBtn">Cancel</button>
-          <button class="primary" id="addVoterBtn">➕ Add voter</button>
+      <div class="nav-tabs" id="navTabs">
+        <button data-page="login" class="active">🔐 Login</button>
+        <button data-page="ballot">📋 Ballot</button>
+        <button data-page="admin">⚙️ Admin</button>
+      </div>
+      <div id="userBadge" class="user-tag hidden"></div>
+    </div>
+    <div class="content">
+      <div id="page-login" class="page active-page">
+        <div class="card login-box">
+          <h2>🔑 Voter Login</h2>
+          <p style="color:#4b6a89;margin-bottom:20px">Enter your voter ID to access the ballot.</p>
+          <div id="loginMessage" class="status-bar" style="display:none"></div>
+          <input type="text" id="loginVoterId" placeholder="Voter ID (e.g., voter1)" autocomplete="off">
+          <button class="primary" id="loginBtn" style="width:100%;justify-content:center">Login</button>
+          <p style="margin-top:20px;font-size:.9rem;color:#6b8aaa">Use your Voter ID to login.
+          </p>
         </div>
-      </div><div id="voterListContainer" class="voter-list"><div class="empty-msg">Loading voters...</div></div></div>
-      <div class="card"><h2>🗳️ Elections</h2><div class="form-row">
-        <div class="form-group"><label>Election title</label><input id="electionTitleInput" placeholder="2026 Student Council"></div>
-        <div class="form-group" style="justify-content:flex-end; align-items:center; gap:8px">
-          <button class="secondary small hidden" id="cancelElectionEditBtn">Cancel</button>
-          <button class="primary" id="addElectionBtn">➕ Add election</button>
+      </div>
+      <div id="page-ballot" class="page">
+        <div class="card">
+          <div class="flex-between">
+            <h2>📋 Cast your vote</h2><button class="secondary small" id="logoutBtn">Logout</button>
+          </div>
+          <div id="ballotStatus" class="status-bar"></div>
+          <div id="ballotContent">
+            <div class="empty-msg">Login to see elections.</div>
+          </div>
         </div>
-      </div><div id="electionListContainer" class="election-list"><div class="empty-msg">Loading elections...</div></div></div>
-      <div class="card"><h2>🧑‍💼 Candidates</h2><div class="form-row">
-        <div class="form-group"><label>Election</label><select id="candidateElectionSelect"></select></div>
-        <div class="form-group"><label>Candidate name</label><input id="candidateNameInput" placeholder="Jane Smith"></div>
-        <div class="form-group" style="justify-content:flex-end; align-items:center; gap:8px">
-          <button class="secondary small hidden" id="cancelCandidateEditBtn">Cancel</button>
-          <button class="primary" id="addCandidateBtn">➕ Add candidate</button>
+      </div>
+      <div id="page-admin" class="page">
+        <div class="card login-box" id="adminLoginPanel">
+          <h2>Administrator sign in</h2>
+          <p style="color:#4b6a89;margin-bottom:20px">Use an admin account.</p>
+          <div id="adminLoginMessage" class="status-bar" role="status" style="display:none"></div>
+          <form id="adminLoginForm">
+            <input type="email" id="adminEmail" placeholder="Administrator email" autocomplete="username" required>
+            <input type="password" id="adminPassword" placeholder="Password" autocomplete="current-password" required>
+            <button class="primary" id="adminLoginBtn" type="submit" style="width:100%;justify-content:center">Sign
+              in</button>
+          </form>
+          <button class="secondary small hidden" id="adminLogoutBtn" type="button" style="margin-top:12px">Sign
+            out</button>
         </div>
-      </div><div id="candidateListContainer" class="candidate-list"><div class="empty-msg">Loading candidates...</div></div></div>
-      <div class="status-bar">⏺️ Live updates from Firestore</div>
+        <div id="adminDashboard" class="hidden">
+          <div class="flex-between" style="margin-bottom:16px">
+            <div id="adminAccountLabel" class="status-bar"></div><button class="secondary small" id="dashboardLogoutBtn"
+              type="button">Sign out</button>
+          </div>
+          <div class="card">
+            <h2>👥 Voters</h2>
+            <div class="form-row">
+              <div class="form-group"><label>Voter ID</label><input id="voterIdInput" placeholder="e.g., voter3"></div>
+              <div class="form-group"><label>Full name</label><input id="voterNameInput" placeholder="Alice Johnson">
+              </div>
+              <div class="form-group" style="justify-content:flex-end; align-items:center; gap:8px">
+                <button class="secondary small hidden" id="cancelVoterEditBtn">Cancel</button>
+                <button class="primary" id="addVoterBtn">➕ Add voter</button>
+              </div>
+            </div>
+            <div id="voterListContainer" class="voter-list">
+              <div class="empty-msg">Loading voters...</div>
+            </div>
+          </div>
+          <div class="card">
+            <h2>🗳️ Elections</h2>
+            <div class="form-row">
+              <div class="form-group"><label>Election title</label><input id="electionTitleInput"
+                  placeholder="2026 Student Council"></div>
+              <div class="form-group" style="justify-content:flex-end; align-items:center; gap:8px">
+                <button class="secondary small hidden" id="cancelElectionEditBtn">Cancel</button>
+                <button class="primary" id="addElectionBtn">➕ Add election</button>
+              </div>
+            </div>
+            <div id="electionListContainer" class="election-list">
+              <div class="empty-msg">Loading elections...</div>
+            </div>
+          </div>
+          <div class="card">
+            <h2>🧑‍💼 Candidates</h2>
+            <div class="form-row">
+              <div class="form-group"><label>Election</label><select id="candidateElectionSelect"></select></div>
+              <div class="form-group"><label>Candidate name</label><input id="candidateNameInput"
+                  placeholder="Jane Smith"></div>
+              <div class="form-group" style="justify-content:flex-end; align-items:center; gap:8px">
+                <button class="secondary small hidden" id="cancelCandidateEditBtn">Cancel</button>
+                <button class="primary" id="addCandidateBtn">➕ Add candidate</button>
+              </div>
+            </div>
+            <div id="candidateListContainer" class="candidate-list">
+              <div class="empty-msg">Loading candidates...</div>
+            </div>
+          </div>
+          <div class="status-bar">⏺️ Real Time Updates </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<script src="./firebase-config.js"></script>
-<script type="module">
-  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
-  import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
+  <script src="./firebase-config.js"></script>
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
+    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
 
-  const API_BASE_URL = (window.API_BASE_URL || (location.hostname === 'localhost' ? 'http://localhost:3000' : '')).replace(/\/$/, '');
-  const firebaseConfig = window.FIREBASE_CONFIG;
-  const firebaseConfigured = firebaseConfig?.apiKey && firebaseConfig?.authDomain && firebaseConfig?.projectId && firebaseConfig?.appId;
-  const auth = firebaseConfigured ? getAuth(initializeApp(firebaseConfig)) : null;
+    const API_BASE_URL = (window.API_BASE_URL || (location.hostname === 'localhost' ? 'http://localhost:3000' : '')).replace(/\/$/, '');
+    const firebaseConfig = window.FIREBASE_CONFIG;
+    const firebaseConfigured = firebaseConfig?.apiKey && firebaseConfig?.authDomain && firebaseConfig?.projectId && firebaseConfig?.appId;
+    const auth = firebaseConfigured ? getAuth(initializeApp(firebaseConfig)) : null;
 
-  const state = {
-    currentUser: null,
-    adminUser: null,
-    adminAccess: false,
-    ballotData: null,
-    adminData: null,
-    editing: {
-      voterId: null,
-      electionId: null,
-      candidateId: null
-    }
-  };
-
-  const pages = {
-    login: document.getElementById('page-login'),
-    ballot: document.getElementById('page-ballot'),
-    admin: document.getElementById('page-admin')
-  };
-
-  const navButtons = document.querySelectorAll('#navTabs button');
-  const userBadge = document.getElementById('userBadge');
-  const ballotContent = document.getElementById('ballotContent');
-  const ballotStatus = document.getElementById('ballotStatus');
-  const voterListContainer = document.getElementById('voterListContainer');
-  const electionListContainer = document.getElementById('electionListContainer');
-  const candidateListContainer = document.getElementById('candidateListContainer');
-  const candidateElectionSelect = document.getElementById('candidateElectionSelect');
-  const voterIdInput = document.getElementById('voterIdInput');
-  const voterNameInput = document.getElementById('voterNameInput');
-  const electionTitleInput = document.getElementById('electionTitleInput');
-  const candidateNameInput = document.getElementById('candidateNameInput');
-  const addVoterBtn = document.getElementById('addVoterBtn');
-  const cancelVoterEditBtn = document.getElementById('cancelVoterEditBtn');
-  const addElectionBtn = document.getElementById('addElectionBtn');
-  const cancelElectionEditBtn = document.getElementById('cancelElectionEditBtn');
-  const addCandidateBtn = document.getElementById('addCandidateBtn');
-  const cancelCandidateEditBtn = document.getElementById('cancelCandidateEditBtn');
-  const adminLoginPanel = document.getElementById('adminLoginPanel');
-  const adminDashboard = document.getElementById('adminDashboard');
-  const adminLoginMessage = document.getElementById('adminLoginMessage');
-  const adminLoginBtn = document.getElementById('adminLoginBtn');
-  const adminLogoutBtn = document.getElementById('adminLogoutBtn');
-  const adminAccountLabel = document.getElementById('adminAccountLabel');
-
-  function showAdminMessage(message) {
-    adminLoginMessage.textContent = message;
-    adminLoginMessage.style.display = 'block';
-  }
-
-  async function api(path, options = {}) {
-    const headers = { 'Content-Type': 'application/json', ...(options.headers || {}) };
-    if (path.startsWith('/admin/')) {
-      const user = auth?.currentUser;
-      if (!user) throw new Error('Administrator sign-in is required.');
-      headers.Authorization = `Bearer ${await user.getIdToken()}`;
-    }
-    const requestOptions = {
-      ...options,
-      headers
+    const state = {
+      currentUser: null,
+      adminUser: null,
+      adminAccess: false,
+      ballotData: null,
+      adminData: null,
+      editing: {
+        voterId: null,
+        electionId: null,
+        candidateId: null
+      }
     };
 
-    if (requestOptions.body && typeof requestOptions.body !== 'string') {
-      requestOptions.body = JSON.stringify(requestOptions.body);
+    const pages = {
+      login: document.getElementById('page-login'),
+      ballot: document.getElementById('page-ballot'),
+      admin: document.getElementById('page-admin')
+    };
+
+    const navButtons = document.querySelectorAll('#navTabs button');
+    const userBadge = document.getElementById('userBadge');
+    const ballotContent = document.getElementById('ballotContent');
+    const ballotStatus = document.getElementById('ballotStatus');
+    const voterListContainer = document.getElementById('voterListContainer');
+    const electionListContainer = document.getElementById('electionListContainer');
+    const candidateListContainer = document.getElementById('candidateListContainer');
+    const candidateElectionSelect = document.getElementById('candidateElectionSelect');
+    const voterIdInput = document.getElementById('voterIdInput');
+    const voterNameInput = document.getElementById('voterNameInput');
+    const electionTitleInput = document.getElementById('electionTitleInput');
+    const candidateNameInput = document.getElementById('candidateNameInput');
+    const addVoterBtn = document.getElementById('addVoterBtn');
+    const cancelVoterEditBtn = document.getElementById('cancelVoterEditBtn');
+    const addElectionBtn = document.getElementById('addElectionBtn');
+    const cancelElectionEditBtn = document.getElementById('cancelElectionEditBtn');
+    const addCandidateBtn = document.getElementById('addCandidateBtn');
+    const cancelCandidateEditBtn = document.getElementById('cancelCandidateEditBtn');
+    const adminLoginPanel = document.getElementById('adminLoginPanel');
+    const adminDashboard = document.getElementById('adminDashboard');
+    const adminLoginMessage = document.getElementById('adminLoginMessage');
+    const adminLoginBtn = document.getElementById('adminLoginBtn');
+    const adminLogoutBtn = document.getElementById('adminLogoutBtn');
+    const adminAccountLabel = document.getElementById('adminAccountLabel');
+
+    function showAdminMessage(message) {
+      adminLoginMessage.textContent = message;
+      adminLoginMessage.style.display = 'block';
     }
 
-    const response = await fetch(`${API_BASE_URL}/api${path}`, requestOptions);
-    const data = await response.json().catch(() => ({}));
-    if (!response.ok) throw new Error(data.error || 'Request failed.');
-    return data;
-  }
+    async function api(path, options = {}) {
+      const headers = { 'Content-Type': 'application/json', ...(options.headers || {}) };
+      if (path.startsWith('/admin/')) {
+        const user = auth?.currentUser;
+        if (!user) throw new Error('Administrator sign-in is required.');
+        headers.Authorization = `Bearer ${await user.getIdToken()}`;
+      }
+      const requestOptions = {
+        ...options,
+        headers
+      };
 
-  function escapeHtml(value) {
-    return String(value ?? '').replace(/[&<>"]'/g, (char) => ({
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      '"': '&quot;',
-      "'": '&#39;'
-    }[char]));
-  }
+      if (requestOptions.body && typeof requestOptions.body !== 'string') {
+        requestOptions.body = JSON.stringify(requestOptions.body);
+      }
 
-  function setUserBadge() {
-    if (!state.currentUser) {
-      userBadge.classList.add('hidden');
-      userBadge.textContent = '';
-      return;
+      const response = await fetch(`${API_BASE_URL}/api${path}`, requestOptions);
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error || 'Request failed.');
+      return data;
     }
 
-    const { name, voterId } = state.currentUser;
-    userBadge.textContent = `👤 ${name} (${voterId})`;
-    userBadge.classList.remove('hidden');
-  }
-
-  function renderEmptyState(container, message) {
-    container.innerHTML = `<div class="empty-msg">${escapeHtml(message)}</div>`;
-  }
-
-  function showPage(pageId) {
-    if (pageId === 'admin' && !state.adminAccess) {
-      adminLoginPanel.classList.remove('hidden');
-      adminDashboard.classList.add('hidden');
-    }
-    Object.keys(pages).forEach((key) => {
-      pages[key].classList.toggle('active-page', key === pageId);
-    });
-
-    navButtons.forEach((button) => {
-      button.classList.toggle('active', button.dataset.page === pageId);
-    });
-
-    if (pageId === 'admin') loadAdminData();
-    if (pageId === 'ballot') loadBallot();
-  }
-
-  function renderBallot(data = state.ballotData) {
-    const { elections = [], candidates = [] } = data || {};
-
-    if (!state.currentUser) {
-      ballotStatus.textContent = '';
-      renderEmptyState(ballotContent, 'Login to see elections.');
-      return;
+    function escapeHtml(value) {
+      return String(value ?? '').replace(/[&<>"]'/g, (char) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      }[char]));
     }
 
-    ballotStatus.textContent = `Logged in as ${state.currentUser.name} (${state.currentUser.voterId})`;
+    function setUserBadge() {
+      if (!state.currentUser) {
+        userBadge.classList.add('hidden');
+        userBadge.textContent = '';
+        return;
+      }
 
-    if (!elections.length) {
-      renderEmptyState(ballotContent, 'No elections available yet.');
-      return;
+      const { name, voterId } = state.currentUser;
+      userBadge.textContent = `👤 ${name} (${voterId})`;
+      userBadge.classList.remove('hidden');
     }
 
-    ballotContent.innerHTML = elections.map((election) => {
-      const options = candidates.filter((candidate) => candidate.electionId === election.id);
+    function renderEmptyState(container, message) {
+      container.innerHTML = `<div class="empty-msg">${escapeHtml(message)}</div>`;
+    }
 
-      return `
+    function showPage(pageId) {
+      if (pageId === 'admin' && !state.adminAccess) {
+        adminLoginPanel.classList.remove('hidden');
+        adminDashboard.classList.add('hidden');
+      }
+      Object.keys(pages).forEach((key) => {
+        pages[key].classList.toggle('active-page', key === pageId);
+      });
+
+      navButtons.forEach((button) => {
+        button.classList.toggle('active', button.dataset.page === pageId);
+      });
+
+      if (pageId === 'admin') loadAdminData();
+      if (pageId === 'ballot') loadBallot();
+    }
+
+    function renderBallot(data = state.ballotData) {
+      const { elections = [], candidates = [] } = data || {};
+
+      if (!state.currentUser) {
+        ballotStatus.textContent = '';
+        renderEmptyState(ballotContent, 'Login to see elections.');
+        return;
+      }
+
+      ballotStatus.textContent = `Logged in as ${state.currentUser.name} (${state.currentUser.voterId})`;
+
+      if (!elections.length) {
+        renderEmptyState(ballotContent, 'No elections available yet.');
+        return;
+      }
+
+      ballotContent.innerHTML = elections.map((election) => {
+        const options = candidates.filter((candidate) => candidate.electionId === election.id);
+
+        return `
         <div style="margin-top:24px">
           <h3 style="color:#0b2b4f;margin-bottom:12px">${escapeHtml(election.title)}</h3>
           ${options.length ? `
@@ -277,84 +652,84 @@
           ` : '<div class="empty-msg">No candidates for this election.</div>'}
         </div>
       `;
-    }).join('');
+      }).join('');
 
-    ballotContent.querySelectorAll('.vote-btn').forEach((button) => {
-      button.addEventListener('click', async () => {
-        const payload = {
-          voterId: state.currentUser.voterId,
-          voterName: state.currentUser.name,
-          electionId: button.dataset.election,
-          candidateId: button.dataset.candidate,
-          candidateName: button.dataset.name
-        };
+      ballotContent.querySelectorAll('.vote-btn').forEach((button) => {
+        button.addEventListener('click', async () => {
+          const payload = {
+            voterId: state.currentUser.voterId,
+            voterName: state.currentUser.name,
+            electionId: button.dataset.election,
+            candidateId: button.dataset.candidate,
+            candidateName: button.dataset.name
+          };
 
-        button.disabled = true;
-        button.textContent = 'Voting...';
+          button.disabled = true;
+          button.textContent = 'Voting...';
 
-        try {
-          await api('/votes', { method: 'POST', body: payload });
-          alert(`Vote recorded for ${button.dataset.name} in ${button.dataset.title}.`);
-        } catch (error) {
-          button.disabled = false;
-          button.textContent = 'Vote';
-          alert(error.message);
-        }
+          try {
+            await api('/votes', { method: 'POST', body: payload });
+            alert(`Vote recorded for ${button.dataset.name} in ${button.dataset.title}.`);
+          } catch (error) {
+            button.disabled = false;
+            button.textContent = 'Vote';
+            alert(error.message);
+          }
+        });
       });
-    });
-  }
-
-  async function loadBallot() {
-    if (!state.currentUser) {
-      ballotStatus.textContent = '';
-      renderEmptyState(ballotContent, 'Login to see elections.');
-      return;
     }
 
-    if (state.ballotData) {
-      renderBallot();
-      return;
+    async function loadBallot() {
+      if (!state.currentUser) {
+        ballotStatus.textContent = '';
+        renderEmptyState(ballotContent, 'Login to see elections.');
+        return;
+      }
+
+      if (state.ballotData) {
+        renderBallot();
+        return;
+      }
+
+      try {
+        const ballotResponse = await api('/ballot');
+        state.ballotData = ballotResponse;
+        renderBallot(ballotResponse);
+      } catch (error) {
+        renderEmptyState(ballotContent, error.message);
+      }
     }
 
-    try {
-      const ballotResponse = await api('/ballot');
-      state.ballotData = ballotResponse;
-      renderBallot(ballotResponse);
-    } catch (error) {
-      renderEmptyState(ballotContent, error.message);
+    function syncAdminFormButtons() {
+      const voterEditing = Boolean(state.editing.voterId);
+      addVoterBtn.textContent = voterEditing ? '💾 Save voter' : '➕ Add voter';
+      cancelVoterEditBtn.classList.toggle('hidden', !voterEditing);
+
+      const electionEditing = Boolean(state.editing.electionId);
+      addElectionBtn.textContent = electionEditing ? '💾 Save election' : '➕ Add election';
+      cancelElectionEditBtn.classList.toggle('hidden', !electionEditing);
+
+      const candidateEditing = Boolean(state.editing.candidateId);
+      addCandidateBtn.textContent = candidateEditing ? '💾 Save candidate' : '➕ Add candidate';
+      cancelCandidateEditBtn.classList.toggle('hidden', !candidateEditing);
+
+      voterIdInput.disabled = voterEditing;
     }
-  }
 
-  function syncAdminFormButtons() {
-    const voterEditing = Boolean(state.editing.voterId);
-    addVoterBtn.textContent = voterEditing ? '💾 Save voter' : '➕ Add voter';
-    cancelVoterEditBtn.classList.toggle('hidden', !voterEditing);
+    function clearAdminEditing() {
+      state.editing = { voterId: null, electionId: null, candidateId: null };
+      voterIdInput.value = '';
+      voterNameInput.value = '';
+      electionTitleInput.value = '';
+      candidateNameInput.value = '';
+      syncAdminFormButtons();
+    }
 
-    const electionEditing = Boolean(state.editing.electionId);
-    addElectionBtn.textContent = electionEditing ? '💾 Save election' : '➕ Add election';
-    cancelElectionEditBtn.classList.toggle('hidden', !electionEditing);
+    function renderAdminData(data = state.adminData) {
+      const { voters = [], elections = [], candidates = [] } = data || {};
 
-    const candidateEditing = Boolean(state.editing.candidateId);
-    addCandidateBtn.textContent = candidateEditing ? '💾 Save candidate' : '➕ Add candidate';
-    cancelCandidateEditBtn.classList.toggle('hidden', !candidateEditing);
-
-    voterIdInput.disabled = voterEditing;
-  }
-
-  function clearAdminEditing() {
-    state.editing = { voterId: null, electionId: null, candidateId: null };
-    voterIdInput.value = '';
-    voterNameInput.value = '';
-    electionTitleInput.value = '';
-    candidateNameInput.value = '';
-    syncAdminFormButtons();
-  }
-
-  function renderAdminData(data = state.adminData) {
-    const { voters = [], elections = [], candidates = [] } = data || {};
-
-    voterListContainer.innerHTML = voters.length
-      ? voters.map((voter) => `
+      voterListContainer.innerHTML = voters.length
+        ? voters.map((voter) => `
           <div class="list-item">
             <div class="info">
               <span class="title">${escapeHtml(voter.name)}</span>
@@ -367,10 +742,10 @@
             </div>
           </div>
         `).join('')
-      : '<div class="empty-msg">No voters yet.</div>';
+        : '<div class="empty-msg">No voters yet.</div>';
 
-    electionListContainer.innerHTML = elections.length
-      ? elections.map((election) => `
+      electionListContainer.innerHTML = elections.length
+        ? elections.map((election) => `
           <div class="list-item">
             <div class="info">
               <span class="title">${escapeHtml(election.title)}</span>
@@ -383,18 +758,18 @@
             </div>
           </div>
         `).join('')
-      : '<div class="empty-msg">No elections yet.</div>';
+        : '<div class="empty-msg">No elections yet.</div>';
 
-    candidateElectionSelect.innerHTML = elections.length
-      ? elections.map((election) => `
+      candidateElectionSelect.innerHTML = elections.length
+        ? elections.map((election) => `
           <option value="${escapeHtml(election.id)}">${escapeHtml(election.title)}</option>
         `).join('')
-      : '<option value="">-- No elections --</option>';
+        : '<option value="">-- No elections --</option>';
 
-    const titleMap = Object.fromEntries(elections.map((election) => [election.id, election.title]));
+      const titleMap = Object.fromEntries(elections.map((election) => [election.id, election.title]));
 
-    candidateListContainer.innerHTML = candidates.length
-      ? candidates.map((candidate) => `
+      candidateListContainer.innerHTML = candidates.length
+        ? candidates.map((candidate) => `
           <div class="list-item">
             <div class="info">
               <span class="title">${escapeHtml(candidate.name)}</span>
@@ -407,299 +782,300 @@
             </div>
           </div>
         `).join('')
-      : '<div class="empty-msg">No candidates yet.</div>';
+        : '<div class="empty-msg">No candidates yet.</div>';
 
-    bindAdminActionButtons();
-  }
-
-  function bindAdminActionButtons() {
-    document.querySelectorAll('.action-btn.edit').forEach((button) => {
-      button.addEventListener('click', () => {
-        const { type, id } = button.dataset;
-
-        if (type === 'voter') {
-          const voter = state.adminData?.voters?.find((item) => item.id === id);
-          if (!voter) return;
-          state.editing.voterId = id;
-          voterIdInput.value = voter.id;
-          voterNameInput.value = voter.name || '';
-          voterIdInput.disabled = true;
-          syncAdminFormButtons();
-          voterNameInput.focus();
-          return;
-        }
-
-        if (type === 'election') {
-          const election = state.adminData?.elections?.find((item) => item.id === id);
-          if (!election) return;
-          state.editing.electionId = id;
-          electionTitleInput.value = election.title || '';
-          syncAdminFormButtons();
-          electionTitleInput.focus();
-          return;
-        }
-
-        if (type === 'candidate') {
-          const candidate = state.adminData?.candidates?.find((item) => item.id === id);
-          if (!candidate) return;
-          state.editing.candidateId = id;
-          candidateElectionSelect.value = candidate.electionId || '';
-          candidateNameInput.value = candidate.name || '';
-          syncAdminFormButtons();
-          candidateNameInput.focus();
-        }
-      });
-    });
-
-    document.querySelectorAll('.action-btn.delete').forEach((button) => {
-      button.addEventListener('click', async () => {
-        const { type, id } = button.dataset;
-
-        if (!confirm(`Delete this ${type}? This cannot be undone.`)) return;
-
-        try {
-          const endpoint = type === 'voter' ? `/admin/voters/${encodeURIComponent(id)}` : type === 'election' ? `/admin/elections/${encodeURIComponent(id)}` : `/admin/candidates/${encodeURIComponent(id)}`;
-          await api(endpoint, { method: 'DELETE' });
-          state.adminData = null;
-          state.ballotData = null;
-          await loadAdminData();
-          if (state.currentUser) loadBallot();
-          clearAdminEditing();
-        } catch (error) {
-          alert(error.message);
-        }
-      });
-    });
-  }
-
-  async function loadAdminData() {
-    if (!state.adminAccess) return;
-    if (state.adminData) {
-      renderAdminData();
-      return;
+      bindAdminActionButtons();
     }
 
-    try {
-      const adminData = await api('/admin/data');
-      state.adminData = adminData;
-      renderAdminData(adminData);
-      syncAdminFormButtons();
-    } catch (error) {
-      alert(error.message);
-    }
-  }
+    function bindAdminActionButtons() {
+      document.querySelectorAll('.action-btn.edit').forEach((button) => {
+        button.addEventListener('click', () => {
+          const { type, id } = button.dataset;
 
-  navButtons.forEach((button) => {
-    button.addEventListener('click', (event) => {
-      const page = event.currentTarget.dataset.page;
-      if (page === 'ballot' && !state.currentUser) {
-        alert('Please log in first.');
-        showPage('login');
+          if (type === 'voter') {
+            const voter = state.adminData?.voters?.find((item) => item.id === id);
+            if (!voter) return;
+            state.editing.voterId = id;
+            voterIdInput.value = voter.id;
+            voterNameInput.value = voter.name || '';
+            voterIdInput.disabled = true;
+            syncAdminFormButtons();
+            voterNameInput.focus();
+            return;
+          }
+
+          if (type === 'election') {
+            const election = state.adminData?.elections?.find((item) => item.id === id);
+            if (!election) return;
+            state.editing.electionId = id;
+            electionTitleInput.value = election.title || '';
+            syncAdminFormButtons();
+            electionTitleInput.focus();
+            return;
+          }
+
+          if (type === 'candidate') {
+            const candidate = state.adminData?.candidates?.find((item) => item.id === id);
+            if (!candidate) return;
+            state.editing.candidateId = id;
+            candidateElectionSelect.value = candidate.electionId || '';
+            candidateNameInput.value = candidate.name || '';
+            syncAdminFormButtons();
+            candidateNameInput.focus();
+          }
+        });
+      });
+
+      document.querySelectorAll('.action-btn.delete').forEach((button) => {
+        button.addEventListener('click', async () => {
+          const { type, id } = button.dataset;
+
+          if (!confirm(`Delete this ${type}? This cannot be undone.`)) return;
+
+          try {
+            const endpoint = type === 'voter' ? `/admin/voters/${encodeURIComponent(id)}` : type === 'election' ? `/admin/elections/${encodeURIComponent(id)}` : `/admin/candidates/${encodeURIComponent(id)}`;
+            await api(endpoint, { method: 'DELETE' });
+            state.adminData = null;
+            state.ballotData = null;
+            await loadAdminData();
+            if (state.currentUser) loadBallot();
+            clearAdminEditing();
+          } catch (error) {
+            alert(error.message);
+          }
+        });
+      });
+    }
+
+    async function loadAdminData() {
+      if (!state.adminAccess) return;
+      if (state.adminData) {
+        renderAdminData();
         return;
       }
-      showPage(page);
-    });
-  });
 
-  document.getElementById('adminLoginForm').addEventListener('submit', async (event) => {
-    event.preventDefault();
-    if (!auth) {
-      showAdminMessage('Firebase web configuration is missing. Set it in frontend/firebase-config.js.');
-      return;
-    }
-    adminLoginBtn.disabled = true;
-    adminLoginBtn.textContent = 'Signing in...';
-    try {
-      await signInWithEmailAndPassword(auth, document.getElementById('adminEmail').value.trim(), document.getElementById('adminPassword').value);
-    } catch (error) {
-      showAdminMessage(error.code === 'auth/invalid-credential' ? 'Email or password is incorrect.' : error.message);
-    } finally {
-      adminLoginBtn.disabled = false;
-      adminLoginBtn.textContent = 'Sign in';
-    }
-  });
-
-  async function signOutAdmin() {
-    if (auth) await signOut(auth);
-    state.adminUser = null;
-    state.adminAccess = false;
-    state.adminData = null;
-    adminDashboard.classList.add('hidden');
-    adminLoginPanel.classList.remove('hidden');
-    showAdminMessage('Signed out.');
-  }
-
-  adminLogoutBtn.addEventListener('click', signOutAdmin);
-  document.getElementById('dashboardLogoutBtn').addEventListener('click', signOutAdmin);
-
-  if (auth) {
-    onAuthStateChanged(auth, async (user) => {
-      state.adminUser = user;
-      state.adminAccess = false;
-      state.adminData = null;
-      adminLogoutBtn.classList.toggle('hidden', !user);
-      adminDashboard.classList.add('hidden');
-      adminLoginPanel.classList.remove('hidden');
-      if (!user) return;
-
-      showAdminMessage('Checking administrator access...');
       try {
         const adminData = await api('/admin/data');
-        state.adminAccess = true;
         state.adminData = adminData;
-        adminAccountLabel.textContent = `Signed in as ${user.email}`;
-        adminLoginPanel.classList.add('hidden');
-        adminDashboard.classList.remove('hidden');
         renderAdminData(adminData);
         syncAdminFormButtons();
       } catch (error) {
-        showAdminMessage(error.message);
+        alert(error.message);
       }
-    });
-  } else {
-    showAdminMessage('Firebase web configuration is missing. Set it in frontend/firebase-config.js.');
-  }
-
-  document.getElementById('loginBtn').addEventListener('click', async () => {
-    const loginInput = document.getElementById('loginVoterId');
-    const message = document.getElementById('loginMessage');
-    const voterId = loginInput.value.trim();
-
-    if (!voterId) {
-      message.textContent = 'Please enter a voter ID.';
-      message.style.display = 'block';
-      return;
     }
 
-    try {
-      const voter = await api(`/voters/${encodeURIComponent(voterId)}`);
-      state.currentUser = { voterId, name: voter.name || voterId };
-      setUserBadge();
-      message.style.display = 'none';
-      loginInput.value = '';
-      state.ballotData = null;
-      showPage('ballot');
-    } catch (error) {
-      message.textContent = error.message;
-      message.style.display = 'block';
-    }
-  });
-
-  document.getElementById('logoutBtn').addEventListener('click', () => {
-    state.currentUser = null;
-    setUserBadge();
-    showPage('login');
-  });
-
-  async function handleVoterSubmit() {
-    const id = voterIdInput.value.trim();
-    const name = voterNameInput.value.trim();
-
-    if (!name) {
-      alert('Please enter a voter name.');
-      return;
-    }
-
-    try {
-      if (state.editing.voterId) {
-        await api(`/admin/voters/${encodeURIComponent(state.editing.voterId)}`, { method: 'PUT', body: { name } });
-      } else {
-        if (!id) {
-          alert('Please enter a voter ID.');
+    navButtons.forEach((button) => {
+      button.addEventListener('click', (event) => {
+        const page = event.currentTarget.dataset.page;
+        if (page === 'ballot' && !state.currentUser) {
+          alert('Please log in first.');
+          showPage('login');
           return;
         }
-        await api('/admin/voters', { method: 'POST', body: { id, name } });
+        showPage(page);
+      });
+    });
+
+    document.getElementById('adminLoginForm').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!auth) {
+        showAdminMessage('Firebase web configuration is missing. Set it in frontend/firebase-config.js.');
+        return;
+      }
+      adminLoginBtn.disabled = true;
+      adminLoginBtn.textContent = 'Signing in...';
+      try {
+        await signInWithEmailAndPassword(auth, document.getElementById('adminEmail').value.trim(), document.getElementById('adminPassword').value);
+      } catch (error) {
+        showAdminMessage(error.code === 'auth/invalid-credential' ? 'Email or password is incorrect.' : error.message);
+      } finally {
+        adminLoginBtn.disabled = false;
+        adminLoginBtn.textContent = 'Sign in';
+      }
+    });
+
+    async function signOutAdmin() {
+      if (auth) await signOut(auth);
+      state.adminUser = null;
+      state.adminAccess = false;
+      state.adminData = null;
+      adminDashboard.classList.add('hidden');
+      adminLoginPanel.classList.remove('hidden');
+      showAdminMessage('Signed out.');
+    }
+
+    adminLogoutBtn.addEventListener('click', signOutAdmin);
+    document.getElementById('dashboardLogoutBtn').addEventListener('click', signOutAdmin);
+
+    if (auth) {
+      onAuthStateChanged(auth, async (user) => {
+        state.adminUser = user;
+        state.adminAccess = false;
+        state.adminData = null;
+        adminLogoutBtn.classList.toggle('hidden', !user);
+        adminDashboard.classList.add('hidden');
+        adminLoginPanel.classList.remove('hidden');
+        if (!user) return;
+
+        showAdminMessage('Checking administrator access...');
+        try {
+          const adminData = await api('/admin/data');
+          state.adminAccess = true;
+          state.adminData = adminData;
+          adminAccountLabel.textContent = `Signed in as ${user.email}`;
+          adminLoginPanel.classList.add('hidden');
+          adminDashboard.classList.remove('hidden');
+          renderAdminData(adminData);
+          syncAdminFormButtons();
+        } catch (error) {
+          showAdminMessage(error.message);
+        }
+      });
+    } else {
+      showAdminMessage('Firebase web configuration is missing. Set it in frontend/firebase-config.js.');
+    }
+
+    document.getElementById('loginBtn').addEventListener('click', async () => {
+      const loginInput = document.getElementById('loginVoterId');
+      const message = document.getElementById('loginMessage');
+      const voterId = loginInput.value.trim();
+
+      if (!voterId) {
+        message.textContent = 'Please enter a voter ID.';
+        message.style.display = 'block';
+        return;
       }
 
+      try {
+        const voter = await api(`/voters/${encodeURIComponent(voterId)}`);
+        state.currentUser = { voterId, name: voter.name || voterId };
+        setUserBadge();
+        message.style.display = 'none';
+        loginInput.value = '';
+        state.ballotData = null;
+        showPage('ballot');
+      } catch (error) {
+        message.textContent = error.message;
+        message.style.display = 'block';
+      }
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      state.currentUser = null;
+      setUserBadge();
+      showPage('login');
+    });
+
+    async function handleVoterSubmit() {
+      const id = voterIdInput.value.trim();
+      const name = voterNameInput.value.trim();
+
+      if (!name) {
+        alert('Please enter a voter name.');
+        return;
+      }
+
+      try {
+        if (state.editing.voterId) {
+          await api(`/admin/voters/${encodeURIComponent(state.editing.voterId)}`, { method: 'PUT', body: { name } });
+        } else {
+          if (!id) {
+            alert('Please enter a voter ID.');
+            return;
+          }
+          await api('/admin/voters', { method: 'POST', body: { id, name } });
+        }
+
+        voterIdInput.value = '';
+        voterNameInput.value = '';
+        state.adminData = null;
+        state.ballotData = null;
+        clearAdminEditing();
+        await loadAdminData();
+        if (state.currentUser) loadBallot();
+      } catch (error) {
+        alert(error.message);
+      }
+    }
+
+    async function handleElectionSubmit() {
+      const title = electionTitleInput.value.trim();
+
+      if (!title) {
+        alert('Please enter election title.');
+        return;
+      }
+
+      try {
+        if (state.editing.electionId) {
+          await api(`/admin/elections/${encodeURIComponent(state.editing.electionId)}`, { method: 'PUT', body: { title } });
+        } else {
+          await api('/admin/elections', { method: 'POST', body: { title } });
+        }
+
+        electionTitleInput.value = '';
+        state.adminData = null;
+        state.ballotData = null;
+        clearAdminEditing();
+        await loadAdminData();
+        if (state.currentUser) loadBallot();
+      } catch (error) {
+        alert(error.message);
+      }
+    }
+
+    async function handleCandidateSubmit() {
+      const electionId = candidateElectionSelect.value;
+      const name = candidateNameInput.value.trim();
+
+      if (!electionId || !name) {
+        alert('Please select an election and enter candidate name.');
+        return;
+      }
+
+      try {
+        if (state.editing.candidateId) {
+          await api(`/admin/candidates/${encodeURIComponent(state.editing.candidateId)}`, { method: 'PUT', body: { electionId, name } });
+        } else {
+          await api('/admin/candidates', { method: 'POST', body: { electionId, name } });
+        }
+
+        candidateNameInput.value = '';
+        state.adminData = null;
+        state.ballotData = null;
+        clearAdminEditing();
+        await loadAdminData();
+        if (state.currentUser) loadBallot();
+      } catch (error) {
+        alert(error.message);
+      }
+    }
+
+    addVoterBtn.addEventListener('click', handleVoterSubmit);
+    cancelVoterEditBtn.addEventListener('click', () => {
+      state.editing.voterId = null;
       voterIdInput.value = '';
       voterNameInput.value = '';
-      state.adminData = null;
-      state.ballotData = null;
-      clearAdminEditing();
-      await loadAdminData();
-      if (state.currentUser) loadBallot();
-    } catch (error) {
-      alert(error.message);
-    }
-  }
+      syncAdminFormButtons();
+    });
 
-  async function handleElectionSubmit() {
-    const title = electionTitleInput.value.trim();
-
-    if (!title) {
-      alert('Please enter election title.');
-      return;
-    }
-
-    try {
-      if (state.editing.electionId) {
-        await api(`/admin/elections/${encodeURIComponent(state.editing.electionId)}`, { method: 'PUT', body: { title } });
-      } else {
-        await api('/admin/elections', { method: 'POST', body: { title } });
-      }
-
+    addElectionBtn.addEventListener('click', handleElectionSubmit);
+    cancelElectionEditBtn.addEventListener('click', () => {
+      state.editing.electionId = null;
       electionTitleInput.value = '';
-      state.adminData = null;
-      state.ballotData = null;
-      clearAdminEditing();
-      await loadAdminData();
-      if (state.currentUser) loadBallot();
-    } catch (error) {
-      alert(error.message);
-    }
-  }
+      syncAdminFormButtons();
+    });
 
-  async function handleCandidateSubmit() {
-    const electionId = candidateElectionSelect.value;
-    const name = candidateNameInput.value.trim();
-
-    if (!electionId || !name) {
-      alert('Please select an election and enter candidate name.');
-      return;
-    }
-
-    try {
-      if (state.editing.candidateId) {
-        await api(`/admin/candidates/${encodeURIComponent(state.editing.candidateId)}`, { method: 'PUT', body: { electionId, name } });
-      } else {
-        await api('/admin/candidates', { method: 'POST', body: { electionId, name } });
-      }
-
+    addCandidateBtn.addEventListener('click', handleCandidateSubmit);
+    cancelCandidateEditBtn.addEventListener('click', () => {
+      state.editing.candidateId = null;
       candidateNameInput.value = '';
-      state.adminData = null;
-      state.ballotData = null;
-      clearAdminEditing();
-      await loadAdminData();
-      if (state.currentUser) loadBallot();
-    } catch (error) {
-      alert(error.message);
-    }
-  }
+      syncAdminFormButtons();
+    });
 
-  addVoterBtn.addEventListener('click', handleVoterSubmit);
-  cancelVoterEditBtn.addEventListener('click', () => {
-    state.editing.voterId = null;
-    voterIdInput.value = '';
-    voterNameInput.value = '';
     syncAdminFormButtons();
-  });
-
-  addElectionBtn.addEventListener('click', handleElectionSubmit);
-  cancelElectionEditBtn.addEventListener('click', () => {
-    state.editing.electionId = null;
-    electionTitleInput.value = '';
-    syncAdminFormButtons();
-  });
-
-  addCandidateBtn.addEventListener('click', handleCandidateSubmit);
-  cancelCandidateEditBtn.addEventListener('click', () => {
-    state.editing.candidateId = null;
-    candidateNameInput.value = '';
-    syncAdminFormButtons();
-  });
-
-  syncAdminFormButtons();
-  showPage('login');
-</script>
+    showPage('login');
+  </script>
 </body>
+
 </html>

@@ -270,6 +270,14 @@ app.delete('/api/admin/candidates/:id', async (req, res, next) => {
   } catch (error) { next(error); }
 });
 
+// Root route — helpful message instead of "Cannot GET /"
+app.get('/', (_req, res) => res.json({
+  service: 'DESA Decides 2026 API',
+  status: 'running',
+  endpoints: '/api/health, /api/ballot, /api/voters/:id, /api/votes, /api/admin/*',
+  note: 'The frontend is served separately (Vercel in production, Live Server locally).'
+}));
+
 // NOTE: Static file serving removed. The frontend is deployed on Vercel.
 // The previous line served the parent directory which exposed backend/.env!
 app.use((error, _req, res, _next) => {
@@ -277,4 +285,4 @@ app.use((error, _req, res, _next) => {
   res.status(500).json({ error: 'The server could not complete that request.' });
 });
 
-app.listen(port, () => console.log(`CivicVote is running at http://localhost:${port}/civicvote.html`));
+app.listen(port, () => console.log(`DESA backend is running at http://localhost:${port}`));
